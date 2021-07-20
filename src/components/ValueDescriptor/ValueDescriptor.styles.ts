@@ -15,6 +15,7 @@ export const Wrapper = styled.div<{
   .Description {
     font-size: 12px;
     font-weight: 500;
+    text-transform: lowercase;
   }
 
   .Currency {
