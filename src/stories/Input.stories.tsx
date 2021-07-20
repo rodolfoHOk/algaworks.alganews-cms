@@ -4,9 +4,6 @@ import Input, { InputProps } from '../components/Input/Input';
 export default {
   title: 'Component/Input',
   component: Input,
-  // argTypes: {
-  //   backgroundColor: { control: 'color' },
-  // },
 } as Meta<InputProps>;
 
 const Template: Story<InputProps> = (args) => <Input {...args} />;
