@@ -8,17 +8,17 @@ export interface FieldDescriptorProps {
 }
 
 export default function FieldDescriptor({ label, value }: FieldDescriptorProps) {
-  return <StyledFieldDescriptor>
+  return <FieldDescriptorWrapper>
     <span className="Label">
       {label}:
     </span>
     <span className="Value">
       {value}
     </span>
-  </StyledFieldDescriptor>
+  </FieldDescriptorWrapper>
 }
 
-const StyledFieldDescriptor = styled.div`
+const FieldDescriptorWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
