@@ -1,6 +1,6 @@
 import Chart from "../components/Chart/Chart";
 
-export default function UserMetrics() {
+export default function UserPerformance() {
   const FAKE_DATA = {
     labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
     datasets: [
