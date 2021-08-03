@@ -1,5 +1,5 @@
 import { Story, Meta } from '@storybook/react';
-import Chart, { ChartProps } from '../components/Chart/Chart';
+import Chart, { ChartProps } from '../app/components/Chart/Chart';
 
 export default {
   title: 'Component/Chart',

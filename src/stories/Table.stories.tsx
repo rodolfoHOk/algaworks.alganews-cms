@@ -2,7 +2,7 @@ import { mdiOpenInNew } from '@mdi/js';
 import Icon from '@mdi/react';
 import { Meta } from '@storybook/react';
 import { useMemo } from 'react';
-import Table from '../components/Table/Table';
+import Table from '../app/components/Table/Table';
 import { Column, useTable } from 'react-table';
 
 export default {
