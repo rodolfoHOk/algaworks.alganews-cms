@@ -21,7 +21,7 @@ function DefaultLayout(props: DefaultLayoutProps) {
       </DL.FeaturedContent>
       <DL.Aside>
         <SessionController
-          name="Cristiano Moreira Silveira Marques"
+          name="Rodolfo H Ok"
           description="editor há 2 anos"
           avatar="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNf0vAZLggJoZxGKpfOa3EBClHkwQmmvv9Lg&usqp=CAU"
         />

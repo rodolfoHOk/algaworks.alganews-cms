@@ -25,6 +25,7 @@ export const Avatar = styled.img`
 export const Name = styled.h2`
   font-size: 18px;
   font-weight: 400;
+  text-align: center;
 
   width: 100%;
   overflow: hidden;

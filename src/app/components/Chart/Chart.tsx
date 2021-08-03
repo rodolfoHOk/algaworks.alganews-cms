@@ -44,7 +44,7 @@ export interface ChartProps {
 }
 
 export default function Chart({ title, data }: ChartProps) {
-  return <ChartWrapper style={{ width: 600 }}>
+  return <ChartWrapper style={{ width: '100%' }}>
     <div style={{ marginBottom: 16 }}>
       <Heading level={3}>
         {title}
