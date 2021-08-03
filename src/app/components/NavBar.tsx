@@ -15,12 +15,12 @@ export default function NavBar() {
   //     history.push(newRoute!);
   // }
 
-  return <nav>
+  return <>
     <ul>
       {/* <li><a onClick={handleAnchorClick} href="/">Home</a></li> */}
       <li><Link to="/">Home</Link></li>
       {/* <li><a onClick={handleAnchorClick} href="/contato">Contato</a></li> */}
       <li><Link to="/contato">Contato</Link></li>
     </ul>
-  </nav>
+  </>
 }

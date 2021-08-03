@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import './core/imports.css';
 import reportWebVitals from './reportWebVitals';
-import NavBar from './app/components/NavBar';
 import Home from './app/views/Home.view';
 import Contact from './app/views/Contact.view';
 import UserView from './app/views/User.view';
@@ -14,7 +13,6 @@ import GlobalStyles from './core/globalStyles';
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <NavBar />
       <Switch>
         <Route path={'/'} exact component={Home} />
         <Route path={'/contato'} exact component={Contact} />
