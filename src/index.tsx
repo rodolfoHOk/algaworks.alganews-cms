@@ -9,6 +9,7 @@ import Contact from './app/views/Contact.view';
 import UserView from './app/views/User.view';
 import CalcView from './app/views/Calc.view';
 import NotFound404 from './app/views/NotFound404.view';
+import GlobalStyles from './core/globalStyles';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -22,6 +23,7 @@ ReactDOM.render(
         <Route component={NotFound404} />
       </Switch>
     </BrowserRouter>
+    <GlobalStyles />
   </React.StrictMode >,
   document.getElementById('root')
 );
