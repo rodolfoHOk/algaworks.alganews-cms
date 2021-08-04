@@ -4,8 +4,8 @@ import styled from "styled-components";
 export default function NavBar() {
   return <>
     <List>
-      <Item><NavLink exact to="/">inicio</NavLink></Item>
-      <Item><NavLink exact to="/contato">contato</NavLink></Item>
+      <Item><NavLink exact to="/">Home</NavLink></Item>
+      <Item><NavLink exact to="/editores">Editores</NavLink></Item>
     </List>
   </>
 }

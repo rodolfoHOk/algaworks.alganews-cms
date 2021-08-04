@@ -13,10 +13,13 @@ export const Wrapper = styled.a`
   color: #274060;
 
   cursor: pointer;
-  transition: outline .1s ease;
+  transition: box-shadow .15s ease;
 
-  &:hover {
+  &:hover,
+  &:focus {
     outline: 5px solid #0099FF;
+    box-shadow: 0 0 0 5px #09f;
+    border-color: #09f;
   }
 `;
 
