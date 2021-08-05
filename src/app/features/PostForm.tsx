@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Tag } from "react-tag-input";
 import styled from "styled-components"
+import countWordsInMarkdown from "../../core/utils/countWordsInMarkdown";
 import Button from "../components/Button/Button";
 import ImageUpload from "../components/ImageUpload";
 import Input from "../components/Input/Input";
@@ -10,11 +11,12 @@ import WordPriceCounter from "../components/WordPriceCounter";
 
 export default function PostForm() {
   const [tags, setTags] = useState<Tag[]>([]);
+  const [body, setBody] = useState<string>('');
 
   return <PostFormWrapper>
     <Input label="título" placeholder="e.g.: como fiquei rico aprendendo react" />
     <ImageUpload label="Thumbnail do post" />
-    <MarkdownEditor />
+    <MarkdownEditor onChange={setBody} />
     <TagInput
       placeholder="Insira as tags deste post"
       tags={tags}
@@ -22,7 +24,10 @@ export default function PostForm() {
       onDelete={index => setTags(tags.filter((tag, i) => index !== i))}
     />
     <PostFormSubmitWrapper>
-      <WordPriceCounter wordCount={10} pricePerWord={0.25} />
+      <WordPriceCounter
+        wordCount={countWordsInMarkdown(body)}
+        pricePerWord={0.10}
+      />
       <Button type="submit" variant="primary" label="salvar post" />
     </PostFormSubmitWrapper>
   </PostFormWrapper>
