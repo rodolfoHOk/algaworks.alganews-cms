@@ -1,7 +1,8 @@
 import { transparentize } from 'polished';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const Wrapper = styled.a`
+export const Wrapper = styled(Link)`
   display: flex;
   align-items: center;
   gap: 24px;
@@ -17,7 +18,7 @@ export const Wrapper = styled.a`
 
   &:hover,
   &:focus {
-    outline: 5px solid #0099FF;
+    outline: none;
     box-shadow: 0 0 0 5px #09f;
     border-color: #09f;
   }
