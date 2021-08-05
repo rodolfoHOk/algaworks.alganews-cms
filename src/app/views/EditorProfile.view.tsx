@@ -33,6 +33,7 @@ export default function EditorProfileView() {
         },
       ]}
       words={[20345, 140432, 2434423]}
+      hidePersonalData={false}
     />
   </DefaultLayout>
 }

@@ -25,6 +25,7 @@ interface EditorProfileProps {
   personalInfo: PersonalInfo;
   skills: Skill[];
   words: number[];
+  hidePersonalData?: boolean;
 }
 
 export default function EditorProfile(props: EditorProfileProps) {
@@ -52,19 +53,27 @@ export default function EditorProfile(props: EditorProfileProps) {
           <FieldDescriptor label="cidade" value={props.personalInfo.city} />
           <FieldDescriptor label="estado" value={props.personalInfo.state} />
         </div>
-        <FieldDescriptor label="celular" value={props.personalInfo.phone} />
-        <FieldDescriptor label="email" value={props.personalInfo.email} />
-        <FieldDescriptor label="data de nascimento" value={props.personalInfo.birthDate} />
+        {
+          !props.hidePersonalData &&
+          <>
+            <FieldDescriptor label="telefone" value={props.personalInfo.phone} />
+            <FieldDescriptor label="email" value={props.personalInfo.email} />
+            <FieldDescriptor label="data de nascimento" value={props.personalInfo.birthDate} />
+          </>
+        }
       </EditorPersonalInfo>
     </EditorData>
-    <EditorEarnings>
-      <ValueDescriptor description={'palavras nesta semana'} value={props.words[0]} color={'primary'} />
-      <ValueDescriptor description={'ganhos na semana'} value={props.words[0] * 0.10} color={'default'} isCurrency />
-      <ValueDescriptor description={'palavras no mês'} value={props.words[1]} color={'primary'} />
-      <ValueDescriptor description={'ganhos no mês'} value={props.words[1] * 0.10} color={'default'} isCurrency />
-      <ValueDescriptor description={'total de palavras'} value={props.words[2]} color={'primary'} />
-      <ValueDescriptor description={'ganhos sempre'} value={props.words[2] * 0.10} color={'default'} isCurrency />
-    </EditorEarnings>
+    {
+      !props.hidePersonalData &&
+      <EditorEarnings>
+        <ValueDescriptor description={'palavras nesta semana'} value={props.words[0]} color={'primary'} />
+        <ValueDescriptor description={'ganhos na semana'} value={props.words[0] * 0.10} color={'default'} isCurrency />
+        <ValueDescriptor description={'palavras no mês'} value={props.words[1]} color={'primary'} />
+        <ValueDescriptor description={'ganhos no mês'} value={props.words[1] * 0.10} color={'default'} isCurrency />
+        <ValueDescriptor description={'total de palavras'} value={props.words[2]} color={'primary'} />
+        <ValueDescriptor description={'ganhos sempre'} value={props.words[2] * 0.10} color={'default'} isCurrency />
+      </EditorEarnings>
+    }
   </EditorProfileWrapper>
 }
 
