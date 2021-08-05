@@ -29,6 +29,8 @@ interface EditorProfileProps {
 }
 
 export default function EditorProfile(props: EditorProfileProps) {
+  // throw new Error('Houve um erro ao tentar renderizar o componente EditorProfile'); teste ErrorBoundary
+
   return <EditorProfileWrapper>
     <EditorHeading>
       <HeadingAvatar src={props.profile.avatar} alt={props.profile.name} />
