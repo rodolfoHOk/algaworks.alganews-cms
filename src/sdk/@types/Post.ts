@@ -6,4 +6,12 @@ export namespace Post {
   export type WithEarnings = AlgaNews.components['schemas']['PostWithEarnings'];
   export type Input = AlgaNews.components['schemas']['PostInput'];
   export type Paginated = AlgaNews.components['schemas']['PostsPaginated'];
+
+  export type Query = {
+    editorId?: number;
+    page?: number;
+    size?: number;
+    showAll?: number;
+    sort?: [keyof Summary, 'asc' | 'desc'];
+  }
 }

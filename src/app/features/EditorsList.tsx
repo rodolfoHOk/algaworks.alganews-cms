@@ -5,7 +5,11 @@ import Profile from "../components/Profile/Profile"
 
 export default function EditorsList() {
   useEffect(() => {
-    const posts = PostService.getAllPosts();
+    const posts = PostService.getAllPosts({
+      size: 20,
+      // page: 2,
+      sort: ['id', 'desc']
+    });
     console.log(posts);
   }, []);
 
