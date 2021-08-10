@@ -1,7 +1,12 @@
 import styled from "styled-components"
+import { User } from "../../@types/User";
+// import { AlgaNews } from "../../@types/AlgaNews";
 import Profile from "../components/Profile/Profile"
 
 export default function EditorsList() {
+  // const editors: AlgaNews.components['schemas']['EditorSummary'][] = [];
+  const editors: User.EditorSummary[] = [];
+
   return <EditorsListWrapper>
     <Profile
       name={'Felipe Hash'}
