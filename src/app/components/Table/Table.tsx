@@ -18,31 +18,41 @@ export default function Table<T extends Object>({ instance }: { instance: TableI
       <T.Wrapper cellPadding={0} cellSpacing={0} {...getTableProps()}>
         <T.Heading>
           {
-            headerGroups.map(headerGroup => (
-              <T.HeadingRow {...headerGroup.getHeaderGroupProps}>
-                {
-                  headerGroup.headers.map(column => (
-                    <T.HeadingCell {...column.getHeaderProps}>
-                      {column.render('Header')}
-                    </T.HeadingCell>
-                  ))
-                }
-              </T.HeadingRow>
-            ))
+            headerGroups.map(headerGroup => {
+              const { key, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps();
+              return (
+                <T.HeadingRow key={key} {...restHeaderGroupProps}>
+                  {
+                    headerGroup.headers.map(column => {
+                      const { key, ...restColumnProps } = column.getHeaderProps();
+                      return (
+                        <T.HeadingCell key={key} {...restColumnProps}>
+                          {column.render('Header')}
+                        </T.HeadingCell>
+                      )
+                    })
+                  }
+                </T.HeadingRow>
+              )
+            })
           }
         </T.Heading>
         <T.Body {...getTableBodyProps()}>
           {
             rows.map(row => {
               prepareRow(row);
+              const { key, ...restRowProps } = row.getRowProps();
               return (
-                <T.BodyRow {...row.getRowProps()}>
+                <T.BodyRow key={key} {...restRowProps}>
                   {
-                    row.cells.map(cell => (
-                      <T.BodyCell {...cell.getCellProps()}>
-                        {cell.render('Cell')}
-                      </T.BodyCell>
-                    ))
+                    row.cells.map(cell => {
+                      const { key, ...restCellProps } = cell.getCellProps()
+                      return (
+                        <T.BodyCell key={key} {...restCellProps}>
+                          {cell.render('Cell')}
+                        </T.BodyCell>
+                      )
+                    })
                   }
                 </T.BodyRow>
               )
