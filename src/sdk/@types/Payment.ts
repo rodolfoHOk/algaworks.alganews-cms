@@ -7,5 +7,4 @@ export namespace Payment {
   export type Detailed = AlgaNews.components['schemas']['PaymentDetailed'];
   export type Summary = AlgaNews.components['schemas']['PaymentSummary'];
   export type Paginated = AlgaNews.components['schemas']['PaymentsPaginated'];
-  export type Earnings = AlgaNews.components['schemas']['PaymentEarnings'];
 }

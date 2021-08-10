@@ -1,11 +1,13 @@
+import { useEffect } from "react";
 import styled from "styled-components"
-import { User } from "../../@types/User";
-// import { AlgaNews } from "../../@types/AlgaNews";
+import PostService from "../../sdk/services/Post.service";
 import Profile from "../components/Profile/Profile"
 
 export default function EditorsList() {
-  // const editors: AlgaNews.components['schemas']['EditorSummary'][] = [];
-  const editors: User.EditorSummary[] = [];
+  useEffect(() => {
+    const posts = PostService.getAllPosts();
+    console.log(posts);
+  }, []);
 
   return <EditorsListWrapper>
     <Profile

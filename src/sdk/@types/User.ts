@@ -9,10 +9,6 @@ export namespace User {
   export type Metrics = AlgaNews.components['schemas']['UserMetrics'];
   export type EditorSummary = AlgaNews.components['schemas']['EditorSummary'];
   export type EditorDetailed = AlgaNews.components['schemas']['EditorDetailed'];
-  export type EditorMonthlyEarnings = AlgaNews.components['schemas']['EditorMonthlyEarnings'];
-  export type EditorTagRatio = AlgaNews.components['schemas']['EditorTagRatio'];
   export type Role = AlgaNews.components['schemas']['Role'];
   export type Skill = AlgaNews.components['schemas']['Skill'];
-  export type Location = AlgaNews.components['schemas']['Location'];
-  export type ImageUrls = AlgaNews.components['schemas']['ImageUrls'];
 }
