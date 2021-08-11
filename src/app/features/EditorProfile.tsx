@@ -1,66 +1,61 @@
 import { transparentize } from "polished";
-import styled from "styled-components"
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import { User } from "../../sdk/@types";
+import UserService from "../../sdk/services/User.service";
+import getEditorDescription from "../../sdk/utils/getEditorDescription";
 import FieldDescriptor from "../components/FieldDescriptor/FieldDescriptor";
-import { ProfileProps } from "../components/Profile/Profile";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import Paragraph from "../components/Typography/Paragraph";
 import ValueDescriptor from "../components/ValueDescriptor/ValueDescriptor";
 
-type Skill = {
-  title: string;
-  progress: number;
-}
-
-type PersonalInfo = {
-  city: string;
-  state: string;
-  phone: string;
-  email: string;
-  birthDate: string;
-}
-
 interface EditorProfileProps {
-  profile: ProfileProps;
-  bio: string;
-  personalInfo: PersonalInfo;
-  skills: Skill[];
-  words: number[];
   hidePersonalData?: boolean;
 }
 
 export default function EditorProfile(props: EditorProfileProps) {
-  // throw new Error('Houve um erro ao tentar renderizar o componente EditorProfile'); teste ErrorBoundary
+  const params = useParams<{ id: string }>();
+  const [editor, setEditor] = useState<User.EditorDetailed>();
+
+  useEffect(() => {
+    UserService.getExistingEditor(Number(params.id))
+      .then(setEditor);
+  }, [params.id]);
+
+  if (!editor)
+    return null;
 
   return <EditorProfileWrapper>
     <EditorHeading>
-      <HeadingAvatar src={props.profile.avatarUrl} alt={props.profile.name} />
+      <HeadingAvatar src={editor.avatarUrls.small} alt={editor.name} />
       <HeadingInfo>
-        <HeadingName>{props.profile.name}</HeadingName>
-        <HeadingDescription>{props.profile.description}</HeadingDescription>
+        <HeadingName>{editor.name}</HeadingName>
+        <HeadingDescription>{getEditorDescription(new Date(editor.createdAt))}</HeadingDescription>
       </HeadingInfo>
     </EditorHeading>
     <EditorData>
       <EditorResume>
         <Paragraph size="small">
-          {props.bio}
+          {editor.bio}
         </Paragraph>
         {
-          props.skills.map(skill => (
-            <ProgressBar title={skill.title} progress={skill.progress} theme="default" />
+          editor.skills?.map(skill => (
+            <ProgressBar title={skill.name} progress={skill.percentage} theme="default" />
           ))
         }
       </EditorResume>
       <EditorPersonalInfo>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-          <FieldDescriptor label="cidade" value={props.personalInfo.city} />
-          <FieldDescriptor label="estado" value={props.personalInfo.state} />
+          <FieldDescriptor label="cidade" value={editor.location.city} />
+          <FieldDescriptor label="estado" value={editor.location.state} />
         </div>
         {
           !props.hidePersonalData &&
           <>
-            <FieldDescriptor label="telefone" value={props.personalInfo.phone} />
-            <FieldDescriptor label="email" value={props.personalInfo.email} />
-            <FieldDescriptor label="data de nascimento" value={props.personalInfo.birthDate} />
+            <FieldDescriptor label="telefone" value={'+55 27 91234-5678'} />
+            <FieldDescriptor label="email" value={'ana.castilho@redacao.algacontent.com'} />
+            <FieldDescriptor label="data de nascimento" value={'26 de Dezembro de 1997 (22  anos)'} />
           </>
         }
       </EditorPersonalInfo>
@@ -68,12 +63,12 @@ export default function EditorProfile(props: EditorProfileProps) {
     {
       !props.hidePersonalData &&
       <EditorEarnings>
-        <ValueDescriptor description={'palavras nesta semana'} value={props.words[0]} color={'primary'} />
-        <ValueDescriptor description={'ganhos na semana'} value={props.words[0] * 0.10} color={'default'} isCurrency />
-        <ValueDescriptor description={'palavras no mês'} value={props.words[1]} color={'primary'} />
-        <ValueDescriptor description={'ganhos no mês'} value={props.words[1] * 0.10} color={'default'} isCurrency />
-        <ValueDescriptor description={'total de palavras'} value={props.words[2]} color={'primary'} />
-        <ValueDescriptor description={'ganhos sempre'} value={props.words[2] * 0.10} color={'default'} isCurrency />
+        <ValueDescriptor description={'palavras nesta semana'} value={20345} color={'primary'} />
+        <ValueDescriptor description={'ganhos na semana'} value={20345 * 0.10} color={'default'} isCurrency />
+        <ValueDescriptor description={'palavras no mês'} value={140432} color={'primary'} />
+        <ValueDescriptor description={'ganhos no mês'} value={140432 * 0.10} color={'default'} isCurrency />
+        <ValueDescriptor description={'total de palavras'} value={2434423} color={'primary'} />
+        <ValueDescriptor description={'ganhos sempre'} value={2434423 * 0.10} color={'default'} isCurrency />
       </EditorEarnings>
     }
   </EditorProfileWrapper>
