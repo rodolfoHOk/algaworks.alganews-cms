@@ -7,11 +7,16 @@ import ValueDescriptor from "../components/ValueDescriptor/ValueDescriptor";
 
 export default function UserEarnings() {
   const [user, setUser] = useState<User.Detailed>();
+  const [error, setError] = useState<Error>();
 
   useEffect(() => {
     UserService.getDetailedUser(7)
-      .then(setUser);
+      .then(setUser)
+      .catch(error => setError(new Error(error.message)));
   }, []);
+
+  if (error)
+    throw error;
 
   if (!user)
     return null;
