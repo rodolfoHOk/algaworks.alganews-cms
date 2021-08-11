@@ -1,49 +1,30 @@
 import { useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components"
-import PostService from "../../sdk/services/Post.service";
+import { User } from "../../sdk/@types";
+import UserService from "../../sdk/services/User.service";
 import Profile from "../components/Profile/Profile"
 
 export default function EditorsList() {
+  const [editors, setEditors] = useState<User.EditorSummary[]>([]);
+
   useEffect(() => {
-    const posts = PostService.getAllPosts({
-      size: 20,
-      // page: 2,
-      sort: ['id', 'desc']
-    });
-    console.log(posts);
+    UserService.getAllEditors()
+      .then(setEditors);
   }, []);
 
   return <EditorsListWrapper>
-    <Profile
-      name={'Felipe Hash'}
-      description={'criador de conteúdo a 3 anos'}
-      avatar={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNf0vAZLggJoZxGKpfOa3EBClHkwQmmvv9Lg&usqp=CAU'}
-      editorId={1}
-    />
-    <Profile
-      name={'João Frango'}
-      description={'criador de conteúdo a 2 anos'}
-      avatar={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNf0vAZLggJoZxGKpfOa3EBClHkwQmmvv9Lg&usqp=CAU'}
-      editorId={2}
-    />
-    <Profile
-      name={'Alex Teixeira'}
-      description={'criador de conteúdo a 2 anos'}
-      avatar={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNf0vAZLggJoZxGKpfOa3EBClHkwQmmvv9Lg&usqp=CAU'}
-      editorId={3}
-    />
-    <Profile
-      name={'Camila Vasconcellos'}
-      description={'criadora de conteúdo a 6 anos'}
-      avatar={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNf0vAZLggJoZxGKpfOa3EBClHkwQmmvv9Lg&usqp=CAU'}
-      editorId={4}
-    />
-    <Profile
-      name={'Gabriel Freitas'}
-      description={'criador de conteúdo a 2 meses'}
-      avatar={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNf0vAZLggJoZxGKpfOa3EBClHkwQmmvv9Lg&usqp=CAU'}
-      editorId={5}
-    />
+    {
+      editors.map(editor => (
+        <Profile
+          key={editor.id}
+          name={editor.name}
+          description={editor.createdAt}
+          avatarUrl={editor.avatarUrls.small}
+          editorId={editor.id}
+        />
+      ))
+    }
   </EditorsListWrapper>
 }
 

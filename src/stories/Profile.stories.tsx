@@ -12,5 +12,5 @@ export const Default = Template.bind({});
 Default.args = {
   name: 'Felipe Hash',
   description: 'criador de conteúdo a 3 anos',
-  avatar: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNf0vAZLggJoZxGKpfOa3EBClHkwQmmvv9Lg&usqp=CAU'
+  avatarUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNf0vAZLggJoZxGKpfOa3EBClHkwQmmvv9Lg&usqp=CAU'
 };

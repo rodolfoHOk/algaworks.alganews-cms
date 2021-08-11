@@ -33,7 +33,7 @@ export default function EditorProfile(props: EditorProfileProps) {
 
   return <EditorProfileWrapper>
     <EditorHeading>
-      <HeadingAvatar src={props.profile.avatar} alt={props.profile.name} />
+      <HeadingAvatar src={props.profile.avatarUrl} alt={props.profile.name} />
       <HeadingInfo>
         <HeadingName>{props.profile.name}</HeadingName>
         <HeadingDescription>{props.profile.description}</HeadingDescription>
