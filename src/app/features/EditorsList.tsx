@@ -3,6 +3,7 @@ import { useState } from "react";
 import styled from "styled-components"
 import { User } from "../../sdk/@types";
 import UserService from "../../sdk/services/User.service";
+import getEditorDescription from "../../sdk/utils/getEditorDescription";
 import Profile from "../components/Profile/Profile"
 
 export default function EditorsList() {
@@ -19,7 +20,7 @@ export default function EditorsList() {
         <Profile
           key={editor.id}
           name={editor.name}
-          description={editor.createdAt}
+          description={getEditorDescription(new Date(editor.createdAt))}
           avatarUrl={editor.avatarUrls.small}
           editorId={editor.id}
         />
