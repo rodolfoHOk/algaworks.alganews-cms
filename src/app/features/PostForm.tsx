@@ -15,6 +15,7 @@ export default function PostForm() {
   const [tags, setTags] = useState<Tag[]>([]);
   const [body, setBody] = useState<string>('');
   const [title, setTitle] = useState<string>('');
+  const [imageUrl, setImageUrl] = useState<string>('');
 
   async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -22,7 +23,7 @@ export default function PostForm() {
       body,
       title,
       tags: tags.map(tag => tag.text),
-      imageUrl: ''
+      imageUrl
     }
     const insertedPost = await PostService.insertNewPost(newPost);
     info({
@@ -38,7 +39,10 @@ export default function PostForm() {
       value={title}
       onChange={e => setTitle(e.currentTarget.value)}
     />
-    <ImageUpload label="Thumbnail do post" />
+    <ImageUpload
+      label="Thumbnail do post"
+      onImageUpload={setImageUrl}
+    />
     <MarkdownEditor onChange={setBody} />
     <TagInput
       placeholder="Insira as tags deste post"
