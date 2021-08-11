@@ -8,7 +8,7 @@ export default function UserPerformance() {
   const [editorEarnings, setEditorEarnings] = useState<ChartProps['data']>();
 
   useEffect(() => {
-    MetricService.getEditorMonthlyEarnings()
+    MetricService.getEditorMonthlyEarnings('2022-01')
       .then(transformEditorMonthlyEarningsIntoChartJs)
       .then(setEditorEarnings);
   }, []);

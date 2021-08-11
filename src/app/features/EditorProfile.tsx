@@ -41,7 +41,7 @@ export default function EditorProfile(props: EditorProfileProps) {
         </Paragraph>
         {
           editor.skills?.map(skill => (
-            <ProgressBar title={skill.name} progress={skill.percentage} theme="default" />
+            <ProgressBar key={skill.name} title={skill.name} progress={skill.percentage} theme="default" />
           ))
         }
       </EditorResume>

@@ -11,7 +11,7 @@ export namespace Post {
     editorId?: number;
     page?: number;
     size?: number;
-    showAll?: number;
+    showAll?: boolean;
     sort?: [keyof Summary, 'asc' | 'desc'];
   }
 }
