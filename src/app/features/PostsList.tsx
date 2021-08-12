@@ -5,10 +5,12 @@ import { useEffect } from "react";
 import { useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { Column, usePagination, useTable } from "react-table";
+import modal from "../../core/utils/modal";
 import { Post } from "../../sdk/@types";
 import PostService from "../../sdk/services/Post.service";
 import Loading from "../components/Loading";
 import Table from "../components/Table/Table";
+import PostPreview from "./PostPreview";
 
 export default function PostsList() {
   const [posts, setPosts] = useState<Post.Paginated>();
@@ -50,7 +52,17 @@ export default function PostsList() {
             alt={props.row.original.editor.name}
             title={props.row.original.editor.name}
           />
-          {props.value}
+          <a
+            href={`/posts/${props.row.original.id}`}
+            onClick={e => {
+              e.preventDefault();
+              modal({
+                children: <PostPreview postId={props.row.original.id} />
+              });
+            }}
+          >
+            {props.value}
+          </a>
         </div>,
       },
       {
