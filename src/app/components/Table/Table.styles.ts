@@ -33,4 +33,36 @@ export const BodyCell = styled.td`
 export const TablePagination = styled.div`
   display: flex;
   gap: 8px;
+
+  ul {
+    display: flex;
+    list-style: none;
+    gap: 8px;
+
+    li {
+      a {
+        display: block;
+        padding: 4px 8px;
+        background-color: #09f;
+        color: #fff;
+        text-align: center;
+        cursor: pointer;
+
+        transition: .25s ease;
+
+        &:hover,
+        &:focus {
+          box-shadow: 0 6px 6px rgba(0,0,0,.15);
+          transform: translateY(-3px);
+        }
+      }
+
+      &.selected a,
+      &.disabled a {
+        background-color: #ccc;
+        color: #222;
+        pointer-events: none;
+      }
+    }
+  }
 `;
