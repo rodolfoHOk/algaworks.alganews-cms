@@ -9,10 +9,24 @@ export const LoadingWrapper = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0,0,0,.7);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
 
   display: flex;
   justify-content: center;
   align-items: center;
+
+  animation-duration: 0.3s;
+  animation-name: loading-in;
+
+  @keyframes loading-in {
+    from {
+      background-color: rgba(0,0,0,0);
+    }
+    to {
+      background-color: rgba(0,0,0,.7);
+    }
+  }
 
   .lds-ring {
     display: inline-block;

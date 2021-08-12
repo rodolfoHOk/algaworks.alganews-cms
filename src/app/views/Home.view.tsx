@@ -5,14 +5,12 @@ import PostsList from "../features/PostsList";
 import UserTopTags from "../features/UserTopTags";
 import UserEarnings from "../features/UserEarnings";
 import ErrorBoundary from "../components/ErrorBoundary";
-import Loading from "../components/Loading";
 
 export default function Home() {
   usePageTitle('Home');
 
   return <DefaultLayout>
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', alignItems: 'center', gap: '32px' }}>
-      <Loading />
       <ErrorBoundary component="top tags">
         <UserTopTags />
       </ErrorBoundary>
