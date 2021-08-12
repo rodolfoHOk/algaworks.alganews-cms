@@ -2,16 +2,42 @@ import * as T from './Table.styles';
 import { TableInstance } from 'react-table';
 import NoData from '../NoData/NoData';
 import { transparentize } from 'polished';
+import Button from '../Button/Button';
+import { useEffect } from 'react';
+
+interface TableProps<T extends object> {
+  instance: TableInstance<T>;
+  onPaginate?: (newPage: number) => any;
+
+}
 
 
-export default function Table<T extends Object>({ instance }: { instance: TableInstance<T> }) {
+export default function Table<T extends Object>({
+  instance,
+  onPaginate
+}: TableProps<T>) {
   const {
     getTableProps,
     getTableBodyProps,
     prepareRow,
     headerGroups,
-    rows
+    rows,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    state: {
+      pageIndex,
+    }
   } = instance;
+
+  useEffect(() => {
+    onPaginate &&
+      onPaginate(pageIndex);
+  }, [pageIndex, onPaginate]);
 
   return (
     <>
@@ -66,6 +92,36 @@ export default function Table<T extends Object>({ instance }: { instance: TableI
           <NoData height={360} />
         </div>
       }
+
+      <T.TablePagination>
+        <Button
+          variant={'primary'}
+          label={'Primeira página'}
+          onClick={() => gotoPage(0)}
+          disabled={!canPreviousPage}
+        />
+        <Button
+          variant={'primary'}
+          label={'Página anterior'}
+          onClick={previousPage}
+          disabled={!canPreviousPage}
+        />
+        <Button
+          variant={'primary'}
+          label={'Próxima página'}
+          onClick={nextPage}
+          disabled={!canNextPage}
+        />
+        <Button
+          variant={'primary'}
+          label={'Última página'}
+          onClick={() => gotoPage(pageCount - 1)}
+          disabled={!canNextPage}
+        />
+        <span>
+          Página {pageIndex + 1} de {pageOptions.length}
+        </span>
+      </T.TablePagination>
     </>
   );
 }

@@ -10,7 +10,6 @@ import info from '../core/utils/info';
 export default function App() {
   useEffect(() => {
     window.onunhandledrejection = function (error: PromiseRejectionEvent) {
-      console.log(error);
       info({
         title: error.reason.response?.data.title || 'Erro',
         description: error.reason.response?.data.detail || error.reason.message
