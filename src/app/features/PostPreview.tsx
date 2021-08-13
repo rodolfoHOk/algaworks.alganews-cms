@@ -1,19 +1,39 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import withBoundary from "../../core/hoc/withBoundary"
+import { Post } from "../../sdk/@types";
+import PostService from "../../sdk/services/Post.service";
 import Button from "../components/Button/Button";
 import MarkdownEditor from "../components/MarkdownEditor";
 import Heading from "../components/Typography/Heading";
+import Loading from "../components/Loading";
 
 interface PostPreviewProps {
   postId: number
 }
 
 function PostPreview(props: PostPreviewProps) {
+  const [post, setPost] = useState<Post.Detailed>();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    PostService
+      .getExistingPost(props.postId)
+      .then(setPost)
+      .finally(() => setLoading(false));
+  }, [props.postId]);
+
+  if (loading)
+    return <Loading show />;
+
+  if (!post)
+    return null;
+
   return <PPWrapper>
-    {/* {`features/PostPreview${props.postId}`} */}
     <PPHeader>
       <Heading level={3}>
-        Você sabe como é trabalhar em um startup?
+        {post.title}
       </Heading>
       <PPActions>
         <Button
@@ -27,12 +47,12 @@ function PostPreview(props: PostPreviewProps) {
       </PPActions>
     </PPHeader>
     <PPImage
-      src="http://localhost:8080/downloads/posts/large/como-contribuir-para-um-repositorio-no-github.jpg"
+      src={post.imageUrls.medium}
       alt="imagem post"
     />
     <MarkdownEditor
       readOnly
-      value={'Olá, mundo!\n- Esta é\n- uma lista\n- de teste.\n- Tenho que\n- testar\n- scroll.'}
+      value={post.body}
     />
   </PPWrapper >
 }
