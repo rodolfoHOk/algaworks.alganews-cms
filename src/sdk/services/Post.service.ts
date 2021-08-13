@@ -27,6 +27,12 @@ class PostService extends Service {
       .put<{}>(`/posts/${postId}/publishing`)
       .then(this.getData);
   }
+
+  static updateExistingPost(postId: number, post: Post.Input) {
+    return this.Http
+      .put<Post.Detailed>(`/posts/${postId}`, post)
+      .then(this.getData);
+  }
 }
 
 export default PostService;
