@@ -7,6 +7,9 @@ import Button from "../components/Button/Button";
 import MarkdownEditor from "../components/MarkdownEditor";
 import Heading from "../components/Typography/Heading";
 import Loading from "../components/Loading";
+import info from "../../core/utils/info";
+import confirm from "../../core/utils/confirm";
+import modal from "../../core/utils/modal";
 
 interface PostPreviewProps {
   postId: number
@@ -15,6 +18,20 @@ interface PostPreviewProps {
 function PostPreview(props: PostPreviewProps) {
   const [post, setPost] = useState<Post.Detailed>();
   const [loading, setLoading] = useState(false);
+
+  async function publishPost() {
+    await PostService.publishExistingPost(props.postId);
+    info({
+      title: 'Post publicado',
+      description: 'Você publicou o post com sucesso'
+    });
+  }
+
+  function reopenModal() {
+    modal({
+      children: <PostPreview postId={props.postId} />
+    });
+  }
 
   useEffect(() => {
     setLoading(true);
@@ -40,6 +57,13 @@ function PostPreview(props: PostPreviewProps) {
           variant="danger"
           label="Publicar"
           disabled={post.published}
+          onClick={() => {
+            confirm({
+              title: 'Publicar o post?',
+              onConfirm: publishPost,
+              onCancel: reopenModal
+            });
+          }}
         />
         <Button
           variant="primary"
