@@ -62,5 +62,6 @@ export const Wrapper = styled.button<{
     border-color: transparent;
     
     pointer-events: none;
+    opacity: 0.5;
   }
 `;
