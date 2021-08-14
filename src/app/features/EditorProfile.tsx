@@ -1,10 +1,8 @@
 import { transparentize } from "polished";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { getEditorDescription, UserService, User } from "rodolfohiok-sdk";
 import styled from "styled-components";
-import { User } from "../../sdk/@types";
-import UserService from "../../sdk/services/User.service";
-import getEditorDescription from "../../sdk/utils/getEditorDescription";
 import FieldDescriptor from "../components/FieldDescriptor/FieldDescriptor";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import Paragraph from "../components/Typography/Paragraph";

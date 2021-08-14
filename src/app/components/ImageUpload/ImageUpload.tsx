@@ -2,7 +2,7 @@ import { mdiDelete, mdiUpload } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect } from 'react';
 import { ChangeEvent, useState } from 'react';
-import FileService from '../../../sdk/services/File.service';
+import { FileService } from 'rodolfohiok-sdk';
 import Loading from '../Loading';
 import * as IU from './ImageUpload.styles';
 

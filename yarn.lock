@@ -13136,6 +13136,15 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
+rodolfohiok-sdk@2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/rodolfohiok-sdk/-/rodolfohiok-sdk-2.6.0.tgz#bac65ad337a2df225ab510d09b18b81f30fc78a0"
+  integrity sha512-wt4FvYMTOGz0qhpTaYBGSmubQeZUnArBXo1zaaOEbjPCE6GA2EBN25+AcbvPfVvUHRf5lhAyYX0uL1YwprTjVQ==
+  dependencies:
+    axios "^0.21.1"
+    date-fns "^2.23.0"
+    uuid "^8.3.2"
+
 rollup-plugin-babel@^4.3.3:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/rollup-plugin-babel/-/rollup-plugin-babel-4.4.0.tgz#d15bd259466a9d1accbdb2fe2fff17c52d030acb"
