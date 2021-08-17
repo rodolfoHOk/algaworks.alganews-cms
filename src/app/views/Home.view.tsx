@@ -5,9 +5,9 @@ import PostsList from "../features/PostsList";
 import UserTopTags from "../features/UserTopTags";
 import UserEarnings from "../features/UserEarnings";
 import ErrorBoundary from "../components/ErrorBoundary";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { addPost } from "../../core/store/Post.slice";
+import selectPaginatedPosts from "../../core/selectors/selectPaginatedPosts";
 
 const fakePost = {
   id: 42,
@@ -51,12 +51,15 @@ const fakePost = {
 export default function Home() {
   usePageTitle('Home');
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(addPost(fakePost));
-  },[dispatch]);
+  const paginatedPosts = useSelector(selectPaginatedPosts);
 
   return <DefaultLayout>
+    <button onClick={() => dispatch(addPost(fakePost))}>
+      disparar ação
+    </button>
+    {
+      paginatedPosts?.map(post => <li>{post.title}</li>)
+    }
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', alignItems: 'center', gap: '32px' }}>
       <ErrorBoundary component="top tags">
         <UserTopTags />
