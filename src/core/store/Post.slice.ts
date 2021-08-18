@@ -1,9 +1,10 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, isFulfilled, isPending, PayloadAction } from "@reduxjs/toolkit";
 import { Post } from "rodolfohiok-sdk";
 import PostService from "../../sdk/services/Post.service";
 
 interface PostSliceState {
-  paginated?: Post.Paginated; 
+  paginated?: Post.Paginated;
+  fetching: boolean; 
 }
 
 const initialState: PostSliceState = {
@@ -13,7 +14,8 @@ const initialState: PostSliceState = {
     totalElements: 1,
     totalPages: 1,
     content: []
-  }
+  },
+  fetching: false
 }
 
 export const fetchPosts = createAsyncThunk(
@@ -31,6 +33,18 @@ const postSlice = createSlice({
     addPost(state, action: PayloadAction<Post.Summary>) {
       state.paginated?.content?.push(action.payload);
     }
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchPosts.fulfilled, (state, action) => {
+        state.paginated = action.payload;
+      })
+      .addMatcher(isPending, (state) => {
+        state.fetching = true;
+      })
+      .addMatcher(isFulfilled, (state) => {
+        state.fetching = false;
+      });
   }
 });
 
