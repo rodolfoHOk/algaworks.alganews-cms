@@ -1,5 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Post } from "rodolfohiok-sdk";
+import PostService from "../../sdk/services/Post.service";
 
 interface PostSliceState {
   paginated?: Post.Paginated; 
@@ -14,6 +15,14 @@ const initialState: PostSliceState = {
     content: []
   }
 }
+
+export const fetchPosts = createAsyncThunk(
+  'post/fetchPosts',
+  async function (query: Post.Query) {
+    const posts = await PostService.getAllPosts(query);
+    return posts;
+  }
+);
 
 const postSlice = createSlice({
   name: 'post',
