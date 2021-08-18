@@ -1,10 +1,11 @@
-import { createAsyncThunk, createSlice, isFulfilled, isPending, isRejected, PayloadAction } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createReducer, isFulfilled, isPending, isRejected } from "@reduxjs/toolkit";
 import { Post } from "rodolfohiok-sdk";
 import PostService from "../../sdk/services/Post.service";
 
 interface PostSliceState {
   paginated?: Post.Paginated;
   fetching: boolean; 
+  counter: number;
 }
 
 const initialState: PostSliceState = {
@@ -15,7 +16,8 @@ const initialState: PostSliceState = {
     totalPages: 1,
     content: []
   },
-  fetching: false
+  fetching: false,
+  counter: 0
 }
 
 export const fetchPosts = createAsyncThunk(
@@ -26,33 +28,52 @@ export const fetchPosts = createAsyncThunk(
   }
 );
 
-const postSlice = createSlice({
-  name: 'post',
-  initialState,
-  reducers: {
-    addPost(state, action: PayloadAction<Post.Summary>) {
-      state.paginated?.content?.push(action.payload);
-    }
-  },
-  extraReducers(builder) {
-    const pendingActions = isPending(fetchPosts);
-    const fulfilledActions = isFulfilled(fetchPosts);
-    const rejectActions = isRejected(fetchPosts);
-    builder
-      .addCase(fetchPosts.fulfilled, (state, action) => {
-        state.paginated = action.payload;
-      })
-      .addMatcher(pendingActions, (state) => {
-        state.fetching = true;
-      })
-      .addMatcher(fulfilledActions, (state) => {
-        state.fetching = false;
-      })
-      .addMatcher(rejectActions, (state) => {
-        state.fetching = false;
-      });
-  }
+export const increment = createAction('post/increment');
+
+export const postReducer = createReducer(initialState, builder => {
+  const pendingActions = isPending(fetchPosts);
+  const fulfilledActions = isFulfilled(fetchPosts);
+  const rejectActions = isRejected(fetchPosts);
+  builder
+    .addCase(increment, (state) => {
+      state.counter++;
+    })
+    .addCase(fetchPosts.fulfilled, (state, action) => {
+      state.paginated = action.payload;
+    })
+    .addMatcher(pendingActions, (state) => {
+      state.fetching = true;
+    })
+    .addMatcher(fulfilledActions, (state) => {
+      state.fetching = false;
+    })
+    .addMatcher(rejectActions, (state) => {
+      state.fetching = false;
+    });
 });
 
-export const postReducer = postSlice.reducer;
-export const { addPost } = postSlice.actions;
+// const postSlice = createSlice({
+//   name: 'post',
+//   initialState,
+//   reducers: {},
+//   extraReducers(builder) {
+//     const pendingActions = isPending(fetchPosts);
+//     const fulfilledActions = isFulfilled(fetchPosts);
+//     const rejectActions = isRejected(fetchPosts);
+//     builder
+//       .addCase(fetchPosts.fulfilled, (state, action) => {
+//         state.paginated = action.payload;
+//       })
+//       .addMatcher(pendingActions, (state) => {
+//         state.fetching = true;
+//       })
+//       .addMatcher(fulfilledActions, (state) => {
+//         state.fetching = false;
+//       })
+//       .addMatcher(rejectActions, (state) => {
+//         state.fetching = false;
+//       });
+//   }
+// });
+
+// export const postReducer = postSlice.reducer;
