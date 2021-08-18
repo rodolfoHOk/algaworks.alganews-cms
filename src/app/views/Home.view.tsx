@@ -6,16 +6,18 @@ import UserTopTags from "../features/UserTopTags";
 import UserEarnings from "../features/UserEarnings";
 import ErrorBoundary from "../components/ErrorBoundary";
 import usePosts from "../../core/hooks/usePosts";
+import { useEffect } from "react";
 
 
 export default function Home() {
   usePageTitle('Home');
   const { paginatedPosts, loading, fetchPosts } = usePosts();
 
+  useEffect(() => {
+    fetchPosts({page: 0});
+  }, [fetchPosts]);
+
   return <DefaultLayout>
-    <button onClick={() => fetchPosts({ page: 0 })}>
-      disparar ação
-    </button>
     { loading ? 'carregando...' : '' }
     { paginatedPosts?.map(post => <li>{post.title}</li>)}
     <hr />
