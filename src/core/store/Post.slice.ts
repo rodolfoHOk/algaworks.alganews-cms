@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, isFulfilled, isPending, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, isFulfilled, isPending, isRejected, PayloadAction } from "@reduxjs/toolkit";
 import { Post } from "rodolfohiok-sdk";
 import PostService from "../../sdk/services/Post.service";
 
@@ -35,14 +35,20 @@ const postSlice = createSlice({
     }
   },
   extraReducers(builder) {
+    const pendingActions = isPending(fetchPosts);
+    const fulfilledActions = isFulfilled(fetchPosts);
+    const rejectActions = isRejected(fetchPosts);
     builder
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.paginated = action.payload;
       })
-      .addMatcher(isPending, (state) => {
+      .addMatcher(pendingActions, (state) => {
         state.fetching = true;
       })
-      .addMatcher(isFulfilled, (state) => {
+      .addMatcher(fulfilledActions, (state) => {
+        state.fetching = false;
+      })
+      .addMatcher(rejectActions, (state) => {
         state.fetching = false;
       });
   }
