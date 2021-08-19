@@ -23,7 +23,7 @@ export default function PostsList() {
     setLoading(true);
     fetchPosts({
       page: page,
-      size: 7,
+      size: 5,
       showAll: true,
       sort: ['createdAt', 'desc']
     }).catch(error => setError(new Error(error.message)))
@@ -38,7 +38,11 @@ export default function PostsList() {
       {
         Header: '',
         accessor: 'id', // accessor is the "key" in the data
-        Cell: () => <Icon path={mdiOpenInNew} size={'14px'} color={'#09F'} />,
+        Cell: () => (
+          <div style={{ paddingLeft: 8, width: "16px" }} >
+            <Icon path={mdiOpenInNew} size={'14px'} color={'#09F'} />
+          </div>
+        ),
       },
       {
         Header: () => <div style={{ textAlign: 'left' }}>Título</div>,
@@ -49,7 +53,7 @@ export default function PostsList() {
           display: 'flex',
           alignItems: 'center',
           gap: '8px',
-          maxWidth: 270
+          maxWidth: 400
         }}>
           <img
             width={24}
@@ -75,18 +79,6 @@ export default function PostsList() {
       {
         Header: () => <div style={{ textAlign: 'right' }}>Criação</div>,
         accessor: 'createdAt',
-        Cell: (props) => <div
-          style={{
-            textAlign: 'right',
-            fontFamily: '"Roboto Mono", monospace'
-          }}
-        >
-          {format(new Date(props.value), 'dd/MM/yyyy')}
-        </div>,
-      },
-      {
-        Header: () => <div style={{ textAlign: 'right' }}>Última atualização</div>,
-        accessor: 'updatedAt',
         Cell: (props) => <div
           style={{
             textAlign: 'right',

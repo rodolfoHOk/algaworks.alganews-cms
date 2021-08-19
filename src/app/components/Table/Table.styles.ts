@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { transparentize } from 'polished';
 
 export const Wrapper = styled.table`
+  width: 100%;
   color: #274060;
   background-color: ${transparentize(0.95, '#274060')};
-  width: 100%;
 `;
 
 export const Heading = styled.thead`
@@ -32,7 +32,9 @@ export const BodyCell = styled.td`
 
 export const TablePagination = styled.div`
   display: flex;
+  justify-content: flex-end;
   gap: 8px;
+  margin-top: 12px;
 
   ul {
     display: flex;
@@ -41,12 +43,17 @@ export const TablePagination = styled.div`
 
     li {
       a {
-        display: block;
-        padding: 4px 8px;
-        background-color: #09f;
-        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 32px;
+        height: 32px;
+        padding: 0px 6px;
+        background-color: #F3F8Fa;
+        color: #274060;
         text-align: center;
         cursor: pointer;
+        border: 1px solid ${transparentize(0.9, '#274060')};
 
         transition: .25s ease;
 
@@ -57,10 +64,15 @@ export const TablePagination = styled.div`
         }
       }
 
-      &.selected a,
+      &.selected a {
+        background-color: #09F;
+        color: #F3F8Fa;
+        pointer-events: none;
+      }
+
       &.disabled a {
-        background-color: #ccc;
-        color: #222;
+        outline: none;
+        opacity: 0.5;
         pointer-events: none;
       }
     }
