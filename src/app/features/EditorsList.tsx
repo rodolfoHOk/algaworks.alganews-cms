@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
+import { getEditorDescription } from "rodolfohiok-sdk";
 import styled from "styled-components"
 import useEditors from "../../core/hooks/useEditors";
-import getEditorDescription from "../../sdk/utils/getEditorDescription";
 import Profile from "../components/Profile/Profile"
 
 export default function EditorsList() {

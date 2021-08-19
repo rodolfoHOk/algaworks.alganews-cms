@@ -1,4 +1,10 @@
-import { createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from "@reduxjs/toolkit";
+import { 
+  createAsyncThunk, 
+  createSlice, 
+  isFulfilled, 
+  isPending, 
+  isRejected 
+} from "@reduxjs/toolkit";
 import { User, UserService } from "rodolfohiok-sdk";
 
 interface UserSliceState {

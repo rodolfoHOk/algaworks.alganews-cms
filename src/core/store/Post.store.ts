@@ -1,6 +1,12 @@
-import { createAction, createAsyncThunk, createReducer, isFulfilled, isPending, isRejected } from "@reduxjs/toolkit";
-import { Post } from "rodolfohiok-sdk";
-import PostService from "../../sdk/services/Post.service";
+import { 
+  createAction, 
+  createAsyncThunk, 
+  createReducer, 
+  isFulfilled, 
+  isPending, 
+  isRejected 
+} from "@reduxjs/toolkit";
+import { Post, PostService } from "rodolfohiok-sdk";
 
 interface PostSliceState {
   paginated?: Post.Paginated;

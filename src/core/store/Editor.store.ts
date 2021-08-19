@@ -1,6 +1,11 @@
-import { createAsyncThunk, createReducer, isFulfilled, isPending, isRejected } from "@reduxjs/toolkit";
-import { User } from "rodolfohiok-sdk";
-import UserService from "../../sdk/services/User.service";
+import { 
+  createAsyncThunk, 
+  createReducer, 
+  isFulfilled, 
+  isPending, 
+  isRejected 
+} from "@reduxjs/toolkit";
+import { User, UserService } from "rodolfohiok-sdk";
 
 export const fetchAllEditors = createAsyncThunk(
   'editor/fetchAllEditors',
