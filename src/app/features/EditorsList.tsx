@@ -1,21 +1,18 @@
 import { useEffect } from "react";
-import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import styled from "styled-components"
-import { User } from "../../sdk/@types";
-import UserService from "../../sdk/services/User.service";
+import useEditors from "../../core/hooks/useEditors";
 import getEditorDescription from "../../sdk/utils/getEditorDescription";
 import Profile from "../components/Profile/Profile"
 
 export default function EditorsList() {
-  const [editors, setEditors] = useState<User.EditorSummary[]>([]);
+  const { editorsList, loading, fetchAllEditors } = useEditors();
 
   useEffect(() => {
-    UserService.getAllEditors()
-      .then(setEditors);
-  }, []);
+    fetchAllEditors();
+  }, [fetchAllEditors]);
 
-  if (!editors.length)
+  if (!editorsList.length)
     return <EditorsListWrapper>
       <Skeleton width={328} height={82} />
       <Skeleton width={328} height={82} />
@@ -24,7 +21,7 @@ export default function EditorsList() {
 
   return <EditorsListWrapper>
     {
-      editors.map(editor => (
+      editorsList.map(editor => (
         <Profile
           key={editor.id}
           name={editor.name}
@@ -33,6 +30,9 @@ export default function EditorsList() {
           editorId={editor.id}
         />
       ))
+    }
+    {
+      loading ? 'buscando mais informações' : null
     }
   </EditorsListWrapper>
 }
