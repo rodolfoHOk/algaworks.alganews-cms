@@ -1,8 +1,9 @@
 import { transparentize } from "polished";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getEditorDescription, UserService, User } from "rodolfohiok-sdk";
+import { getEditorDescription } from "rodolfohiok-sdk";
 import styled from "styled-components";
+import useSingleEditor from "../../core/hooks/useSingleEditor";
 import FieldDescriptor from "../components/FieldDescriptor/FieldDescriptor";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
 import Paragraph from "../components/Typography/Paragraph";
@@ -14,12 +15,11 @@ interface EditorProfileProps {
 
 export default function EditorProfile(props: EditorProfileProps) {
   const params = useParams<{ id: string }>();
-  const [editor, setEditor] = useState<User.EditorDetailed>();
+  const { editor, fetchEditor } = useSingleEditor();
 
   useEffect(() => {
-    UserService.getExistingEditor(Number(params.id))
-      .then(setEditor);
-  }, [params.id]);
+    fetchEditor(Number(params.id));
+  }, [fetchEditor, params.id]);
 
   if (!editor)
     return null;
