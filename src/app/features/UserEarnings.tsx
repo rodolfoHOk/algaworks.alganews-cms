@@ -2,19 +2,18 @@ import { useEffect } from "react";
 import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import styled from "styled-components";
-import { User } from "../../sdk/@types";
-import UserService from "../../sdk/services/User.service";
+import useUser from "../../core/hooks/useUser";
 import ValueDescriptor from "../components/ValueDescriptor/ValueDescriptor";
 
+
 export default function UserEarnings() {
-  const [user, setUser] = useState<User.Detailed>();
+  const { user, fetchUser } = useUser();
   const [error, setError] = useState<Error>();
 
   useEffect(() => {
-    UserService.getDetailedUser(7)
-      .then(setUser)
+    fetchUser(7)
       .catch(error => setError(new Error(error.message)));
-  }, []);
+  }, [fetchUser]);
 
   if (error)
     throw error;

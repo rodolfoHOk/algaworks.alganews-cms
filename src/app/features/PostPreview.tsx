@@ -1,32 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import withBoundary from "../../core/hoc/withBoundary"
-import { Post } from "../../sdk/@types";
-import PostService from "../../sdk/services/Post.service";
 import Button from "../components/Button/Button";
 import MarkdownEditor from "../components/MarkdownEditor";
 import Heading from "../components/Typography/Heading";
 import Loading from "../components/Loading";
-import info from "../../core/utils/info";
 import confirm from "../../core/utils/confirm";
 import modal from "../../core/utils/modal";
+import useSinglePost from "../../core/hooks/useSinglePost";
+
 
 interface PostPreviewProps {
   postId: number
 }
 
 function PostPreview(props: PostPreviewProps) {
-  const [post, setPost] = useState<Post.Detailed>();
-  const [loading, setLoading] = useState(false);
-
-  async function publishPost() {
-    await PostService.publishExistingPost(props.postId);
-    info({
-      title: 'Post publicado',
-      description: 'Você publicou o post com sucesso'
-    });
-  }
-
+  const { post, loading, fetchPost, publishPost } = useSinglePost();
+  
   function reopenModal() {
     modal({
       children: <PostPreview postId={props.postId} />
@@ -34,12 +24,8 @@ function PostPreview(props: PostPreviewProps) {
   }
 
   useEffect(() => {
-    setLoading(true);
-    PostService
-      .getExistingPost(props.postId)
-      .then(setPost)
-      .finally(() => setLoading(false));
-  }, [props.postId]);
+    fetchPost(props.postId);
+  }, [props.postId, fetchPost]);
 
   if (loading)
     return <Loading show />;
