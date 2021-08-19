@@ -5,31 +5,30 @@ import { useEffect } from "react";
 import { useMemo, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import { Column, usePagination, useTable } from "react-table";
+import usePosts from "../../core/hooks/usePosts";
 import modal from "../../core/utils/modal";
 import { Post } from "../../sdk/@types";
-import PostService from "../../sdk/services/Post.service";
 import Loading from "../components/Loading";
 import PostTitleAnchor from "../components/PostTitleAnchor";
 import Table from "../components/Table/Table";
 import PostPreview from "./PostPreview";
 
 export default function PostsList() {
-  const [posts, setPosts] = useState<Post.Paginated>();
+  const { paginatedPosts, fetchPosts } = usePosts();
   const [error, setError] = useState<Error>();
   const [page, setPage] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     setLoading(true);
-    PostService.getAllPosts({
+    fetchPosts({
       page: page,
       size: 7,
       showAll: true,
       sort: ['createdAt', 'desc']
-    }).then(setPosts)
-      .catch(error => setError(new Error(error.message)))
+    }).catch(error => setError(new Error(error.message)))
       .finally(() => setLoading(false));
-  }, [page]);
+  }, [fetchPosts, page]);
 
   if (error)
     throw error;
@@ -113,16 +112,16 @@ export default function PostsList() {
 
   const tableInstance = useTable<Post.Summary>(
     {
-      data: posts?.content || [],
+      data: paginatedPosts?.content || [],
       columns,
       manualPagination: true,
       initialState: { pageIndex: 0 },
-      pageCount: posts?.totalPages,
+      pageCount: paginatedPosts?.totalPages,
     },
     usePagination
   );
 
-  if (!posts)
+  if (!paginatedPosts?.content?.length)
     return <div>
       <Skeleton height={32} />
       <Skeleton height={40} />

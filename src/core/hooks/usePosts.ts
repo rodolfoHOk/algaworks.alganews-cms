@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Post } from "rodolfohiok-sdk";
 import selectPaginatedPosts from "../selectors/selectPaginatedPosts";
 import selectPostsFetching from "../selectors/selectPostsFetching";
-import * as PostActions from "../store/Post.slice";
+import * as PostActions from "../store/Post.store";
 
 export default function usePosts(){
   const dispatch = useDispatch();
