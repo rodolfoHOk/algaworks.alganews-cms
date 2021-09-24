@@ -1,8 +1,11 @@
+import { format } from "date-fns";
+import ptBr from "date-fns/locale/pt-BR";
 import { transparentize } from "polished";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import { getEditorDescription } from "rodolfohiok-sdk";
+import { getEditorDescription, User } from "rodolfohiok-sdk";
 import styled from "styled-components";
+import useAuth from "../../core/hooks/useAuth";
 import useSingleEditor from "../../core/hooks/useSingleEditor";
 import FieldDescriptor from "../components/FieldDescriptor/FieldDescriptor";
 import ProgressBar from "../components/ProgressBar/ProgressBar";
@@ -15,61 +18,134 @@ interface EditorProfileProps {
 
 export default function EditorProfile(props: EditorProfileProps) {
   const params = useParams<{ id: string }>();
+
   const { editor, fetchEditor } = useSingleEditor();
+  const { user } = useAuth();
+
+  const editorIsAuthenticatedUser = useMemo(
+    () => Number(params.id) === user?.id,
+    [params.id, user]
+  );
+
+  const editorData = useMemo(
+    () => (editorIsAuthenticatedUser ? user : editor),
+    [editorIsAuthenticatedUser, user, editor]
+  );
 
   useEffect(() => {
-    fetchEditor(Number(params.id));
-  }, [fetchEditor, params.id]);
+    if (!editorIsAuthenticatedUser) fetchEditor(Number(params.id));
+  }, [fetchEditor, params.id, editorIsAuthenticatedUser]);
 
-  if (!editor)
-    return null;
+  if (!editorData) return null;
 
-  return <EditorProfileWrapper>
-    <EditorHeading>
-      <HeadingAvatar src={editor.avatarUrls.small} alt={editor.name} />
-      <HeadingInfo>
-        <HeadingName>{editor.name}</HeadingName>
-        <HeadingDescription>{getEditorDescription(new Date(editor.createdAt))}</HeadingDescription>
-      </HeadingInfo>
-    </EditorHeading>
-    <EditorData>
-      <EditorResume>
-        <Paragraph size="small">
-          {editor.bio}
-        </Paragraph>
-        {
-          editor.skills?.map(skill => (
-            <ProgressBar key={skill.name} title={skill.name} progress={skill.percentage} theme="default" />
-          ))
-        }
-      </EditorResume>
-      <EditorPersonalInfo>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
-          <FieldDescriptor label="cidade" value={editor.location.city} />
-          <FieldDescriptor label="estado" value={editor.location.state} />
-        </div>
-        {
-          !props.hidePersonalData &&
-          <>
-            <FieldDescriptor label="telefone" value={'+55 27 91234-5678'} />
-            <FieldDescriptor label="email" value={'ana.castilho@redacao.algacontent.com'} />
-            <FieldDescriptor label="data de nascimento" value={'26 de Dezembro de 1997 (22  anos)'} />
-          </>
-        }
-      </EditorPersonalInfo>
-    </EditorData>
-    {
-      !props.hidePersonalData &&
-      <EditorEarnings>
-        <ValueDescriptor description={'palavras nesta semana'} value={20345} color={'primary'} />
-        <ValueDescriptor description={'ganhos na semana'} value={20345 * 0.10} color={'default'} isCurrency />
-        <ValueDescriptor description={'palavras no mês'} value={140432} color={'primary'} />
-        <ValueDescriptor description={'ganhos no mês'} value={140432 * 0.10} color={'default'} isCurrency />
-        <ValueDescriptor description={'total de palavras'} value={2434423} color={'primary'} />
-        <ValueDescriptor description={'ganhos sempre'} value={2434423 * 0.10} color={'default'} isCurrency />
-      </EditorEarnings>
-    }
-  </EditorProfileWrapper>
+  return (
+    <EditorProfileWrapper>
+      <EditorHeading>
+        <HeadingAvatar
+          src={editorData.avatarUrls.small}
+          alt={editorData.name}
+        />
+        <HeadingInfo>
+          <HeadingName>{editorData.name}</HeadingName>
+          {editorData.createdAt && (
+            <HeadingDescription>
+              {getEditorDescription(new Date(editorData.createdAt))}
+            </HeadingDescription>
+          )}
+        </HeadingInfo>
+      </EditorHeading>
+      <EditorData>
+        <EditorResume>
+          {editorData.bio && (
+            <Paragraph size="small">{editorData.bio}</Paragraph>
+          )}
+          {editorData.skills?.map((skill) => (
+            <ProgressBar
+              key={skill.name}
+              title={skill.name}
+              progress={skill.percentage}
+              theme="default"
+            />
+          ))}
+        </EditorResume>
+        <EditorPersonalInfo>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+            {editorData.location.city && (
+              <FieldDescriptor
+                label="cidade"
+                value={editorData.location.city}
+              />
+            )}
+            {editorData.location.state && (
+              <FieldDescriptor
+                label="estado"
+                value={editorData.location.state}
+              />
+            )}
+          </div>
+          {(editorData as User.Detailed)?.phone && (
+            <FieldDescriptor
+              label="telefone"
+              value={(editorData as User.Detailed)?.phone}
+            />
+          )}
+          {(editorData as User.Detailed)?.email && (
+            <FieldDescriptor
+              label="email"
+              value={(editorData as User.Detailed)?.email}
+            />
+          )}
+          {(editorData as User.Detailed)?.birthdate && (
+            <FieldDescriptor
+              label="data de nascimento"
+              value={format(
+                new Date((editorData as User.Detailed).birthdate),
+                "dd 'de' MMM 'de' yyyy ",
+                { locale: ptBr }
+              )}
+            />
+          )}
+        </EditorPersonalInfo>
+      </EditorData>
+      {(editorData as User.Detailed).metrics && (
+        <EditorEarnings>
+          <ValueDescriptor
+            description={"palavras nesta semana"}
+            value={(editorData as User.Detailed).metrics.weeklyWords}
+            color={"primary"}
+          />
+          <ValueDescriptor
+            description={"ganhos na semana"}
+            value={(editorData as User.Detailed).metrics.weeklyEarnings}
+            color={"default"}
+            isCurrency
+          />
+          <ValueDescriptor
+            description={"palavras no mês"}
+            value={(editorData as User.Detailed).metrics.monthlyWords}
+            color={"primary"}
+          />
+          <ValueDescriptor
+            description={"ganhos no mês"}
+            value={(editorData as User.Detailed).metrics.monthlyEarnings}
+            color={"default"}
+            isCurrency
+          />
+          <ValueDescriptor
+            description={"total de palavras"}
+            value={(editorData as User.Detailed).metrics.lifetimeWords}
+            color={"primary"}
+          />
+          <ValueDescriptor
+            description={"ganhos sempre"}
+            value={(editorData as User.Detailed).metrics.lifetimeEarnings}
+            color={"default"}
+            isCurrency
+          />
+        </EditorEarnings>
+      )}
+    </EditorProfileWrapper>
+  );
 }
 
 const EditorProfileWrapper = styled.div`
@@ -85,7 +161,7 @@ const EditorHeading = styled.div`
   gap: 24px;
 
   padding-bottom: 24px;
-  border-bottom: 1px solid ${transparentize(0.9, '#274060')};
+  border-bottom: 1px solid ${transparentize(0.9, "#274060")};
 `;
 
 export const HeadingAvatar = styled.img`
