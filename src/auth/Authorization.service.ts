@@ -27,7 +27,7 @@ export default class AuthorizationService {
   public static imperativelySendToLogout() {
     window.localStorage.clear();
     // codigo imperativo: gera efeito colateral
-    window.location.href = `http://localhost:8081/logout?redirect=http://localhost:3000`;
+    window.location.href = `http://localhost:8081/logout?redirect=http://localhost:3001`;
   }
 
   public static async getNewToken(config: {
