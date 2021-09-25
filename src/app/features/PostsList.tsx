@@ -25,78 +25,90 @@ export default function PostsList() {
       page: page,
       size: 5,
       showAll: true,
-      sort: ['createdAt', 'desc']
-    }).catch(error => setError(new Error(error.message)))
+      sort: ["createdAt", "desc"],
+    })
+      .catch((error) => setError(new Error(error.message)))
       .finally(() => setLoading(false));
   }, [fetchPosts, page]);
 
-  if (error)
-    throw error;
+  if (error) throw error;
 
   const columns = useMemo<Column<Post.Summary>[]>(
     () => [
       {
-        Header: '',
-        accessor: 'id', // accessor is the "key" in the data
-        Cell: () => (
-          <div style={{ paddingLeft: 8, width: "16px" }} >
-            <Icon path={mdiOpenInNew} size={'14px'} color={'#09F'} />
+        Header: "",
+        accessor: "id", // accessor is the "key" in the data
+        Cell: ({ row }) => (
+          <div style={{ paddingLeft: 8, width: "16px" }}>
+            <a
+              target={"_blank"}
+              href={`http://localhost:3002/posts/${row.original.id}/${row.original.slug}`}
+              rel="noreferrer noopener"
+            >
+              <Icon path={mdiOpenInNew} size={"14px"} color={"#09F"} />
+            </a>
           </div>
         ),
       },
       {
-        Header: () => <div style={{ textAlign: 'left' }}>Título</div>,
-        accessor: 'title',
+        Header: () => <div style={{ textAlign: "left" }}>Título</div>,
+        accessor: "title",
         width: 320,
-        Cell: (props) => <div style={{
-          textAlign: 'left',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          maxWidth: 400
-        }}>
-          <img
-            width={24}
-            height={24}
-            src={props.row.original.editor.avatarUrls.small}
-            alt={props.row.original.editor.name}
-            title={props.row.original.editor.name}
-          />
-          <PostTitleAnchor
-            title={props.value}
-            href={`/posts/${props.row.original.id}`}
-            onClick={e => {
-              e.preventDefault();
-              modal({
-                children: <PostPreview postId={props.row.original.id} />
-              });
+        Cell: (props) => (
+          <div
+            style={{
+              textAlign: "left",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              maxWidth: 400,
             }}
           >
-            {props.value}
-          </PostTitleAnchor>
-        </div>,
+            <img
+              width={24}
+              height={24}
+              src={props.row.original.editor.avatarUrls.small}
+              alt={props.row.original.editor.name}
+              title={props.row.original.editor.name}
+            />
+            <PostTitleAnchor
+              title={props.value}
+              href={`/posts/${props.row.original.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                modal({
+                  children: <PostPreview postId={props.row.original.id} />,
+                });
+              }}
+            >
+              {props.value}
+            </PostTitleAnchor>
+          </div>
+        ),
       },
       {
-        Header: () => <div style={{ textAlign: 'right' }}>Criação</div>,
-        accessor: 'createdAt',
-        Cell: (props) => <div
-          style={{
-            textAlign: 'right',
-            fontFamily: '"Roboto Mono", monospace'
-          }}
-        >
-          {format(new Date(props.value), 'dd/MM/yyyy')}
-        </div>,
+        Header: () => <div style={{ textAlign: "right" }}>Criação</div>,
+        accessor: "createdAt",
+        Cell: (props) => (
+          <div
+            style={{
+              textAlign: "right",
+              fontFamily: '"Roboto Mono", monospace',
+            }}
+          >
+            {format(new Date(props.value), "dd/MM/yyyy")}
+          </div>
+        ),
       },
       {
         id: Math.random().toString(),
-        accessor: 'published',
-        Header: () => <div style={{ textAlign: 'right' }}>Ações</div>,
-        Cell: (props) => <div style={{ textAlign: 'right' }}>
-          {
-            props.value ? 'Publicado' : 'Privado'
-          }
-        </div>
+        accessor: "published",
+        Header: () => <div style={{ textAlign: "right" }}>Ações</div>,
+        Cell: (props) => (
+          <div style={{ textAlign: "right" }}>
+            {props.value ? "Publicado" : "Privado"}
+          </div>
+        ),
       },
     ],
     []
@@ -114,22 +126,23 @@ export default function PostsList() {
   );
 
   if (!paginatedPosts?.content?.length)
-    return <div>
-      <Skeleton height={32} />
-      <Skeleton height={40} />
-      <Skeleton height={40} />
-      <Skeleton height={40} />
-      <Skeleton height={40} />
-      <Skeleton height={40} />
-      <Skeleton height={40} />
-      <Skeleton height={40} />
-    </div>
+    return (
+      <div>
+        <Skeleton height={32} />
+        <Skeleton height={40} />
+        <Skeleton height={40} />
+        <Skeleton height={40} />
+        <Skeleton height={40} />
+        <Skeleton height={40} />
+        <Skeleton height={40} />
+        <Skeleton height={40} />
+      </div>
+    );
 
-  return <>
-    <Loading show={loading} />
-    <Table
-      instance={tableInstance}
-      onPaginate={setPage}
-    />
-  </>
+  return (
+    <>
+      <Loading show={loading} />
+      <Table instance={tableInstance} onPaginate={setPage} />
+    </>
+  );
 }
