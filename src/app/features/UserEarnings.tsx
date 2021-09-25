@@ -1,37 +1,48 @@
-import { useEffect } from "react";
-import { useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import styled from "styled-components";
-import useUser from "../../core/hooks/useUser";
+import useAuth from "../../core/hooks/useAuth";
 import ValueDescriptor from "../components/ValueDescriptor/ValueDescriptor";
 
-
 export default function UserEarnings() {
-  const { user, fetchUser } = useUser();
-  const [error, setError] = useState<Error>();
-
-  useEffect(() => {
-    fetchUser(7)
-      .catch(error => setError(new Error(error.message)));
-  }, [fetchUser]);
-
-  if (error)
-    throw error;
+  const { user } = useAuth();
 
   if (!user)
-    return <UserEarningsWrapper style={{ height: 123 }}>
-      <Skeleton height={40} width={150} />
-      <Skeleton height={40} width={150} />
-      <Skeleton height={40} width={150} />
-      <Skeleton height={40} width={150} />
-    </UserEarningsWrapper>;
+    return (
+      <UserEarningsWrapper style={{ height: 123 }}>
+        <Skeleton height={40} width={150} />
+        <Skeleton height={40} width={150} />
+        <Skeleton height={40} width={150} />
+        <Skeleton height={40} width={150} />
+      </UserEarningsWrapper>
+    );
 
-  return <UserEarningsWrapper>
-    <ValueDescriptor description={'ganhos no mês'} value={user.metrics.monthlyEarnings} color={'default'} isCurrency />
-    <ValueDescriptor description={'ganhos na semana'} value={user.metrics.weeklyEarnings} color={'default'} isCurrency />
-    <ValueDescriptor description={'ganhos de sempre'} value={user.metrics.lifetimeEarnings} color={'primary'} isCurrency />
-    <ValueDescriptor description={'total de palavras'} value={user.metrics.lifetimeWords} color={'primary'} />
-  </UserEarningsWrapper>
+  return (
+    <UserEarningsWrapper>
+      <ValueDescriptor
+        description={"ganhos no mês"}
+        value={user.metrics.monthlyEarnings}
+        color={"default"}
+        isCurrency
+      />
+      <ValueDescriptor
+        description={"ganhos na semana"}
+        value={user.metrics.weeklyEarnings}
+        color={"default"}
+        isCurrency
+      />
+      <ValueDescriptor
+        description={"ganhos de sempre"}
+        value={user.metrics.lifetimeEarnings}
+        color={"primary"}
+        isCurrency
+      />
+      <ValueDescriptor
+        description={"total de palavras"}
+        value={user.metrics.lifetimeWords}
+        color={"primary"}
+      />
+    </UserEarningsWrapper>
+  );
 }
 
 const UserEarningsWrapper = styled.div`

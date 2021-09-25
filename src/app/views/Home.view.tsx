@@ -1,4 +1,4 @@
-import usePageTitle from "../../core/hooks/usePageTitle"
+import usePageTitle from "../../core/hooks/usePageTitle";
 import DefaultLayout from "../layouts/Default";
 import UserPerformance from "../features/UserPerformance";
 import PostsList from "../features/PostsList";
@@ -6,22 +6,30 @@ import UserTopTags from "../features/UserTopTags";
 import UserEarnings from "../features/UserEarnings";
 import ErrorBoundary from "../components/ErrorBoundary";
 
-
 export default function Home() {
-  usePageTitle('Home');
+  usePageTitle("Home");
 
-  return <DefaultLayout>
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', alignItems: 'center', gap: '32px' }}>
-      <ErrorBoundary component="top tags">
-        <UserTopTags />
+  return (
+    <DefaultLayout>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          alignItems: "center",
+          gap: "32px",
+        }}
+      >
+        <ErrorBoundary component="top tags">
+          <UserTopTags />
+        </ErrorBoundary>
+        <ErrorBoundary component="ganhos">
+          <UserEarnings />
+        </ErrorBoundary>
+      </div>
+      <UserPerformance />
+      <ErrorBoundary component="lista de posts">
+        <PostsList />
       </ErrorBoundary>
-      <ErrorBoundary component="ganhos">
-        <UserEarnings />
-      </ErrorBoundary>
-    </div>
-    <UserPerformance />
-    <ErrorBoundary component="lista de posts">
-      <PostsList />
-    </ErrorBoundary>
-  </DefaultLayout>
+    </DefaultLayout>
+  );
 }
