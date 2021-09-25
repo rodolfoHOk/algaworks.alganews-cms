@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User, UserService } from "rodolfohiok-sdk";
+import AuthorizationService from "../../auth/Authorization.service";
 import getThunkStatus from "../utils/getThunkStatus";
 
 type PA<T> = PayloadAction<T>;
@@ -19,6 +20,11 @@ export const fetchUser = createAsyncThunk(
   async (userId: number, { rejectWithValue, dispatch }) => {
     try {
       const user = await UserService.getDetailedUser(userId);
+      if (user.role !== "EDITOR") {
+        window.alert("Você não tem acesso a este sistema");
+        AuthorizationService.imperativelySendToLogout();
+        return;
+      }
       await dispatch(storeUser(user));
     } catch (err) {
       //@ts-ignore
