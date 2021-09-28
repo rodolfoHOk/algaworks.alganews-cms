@@ -11,8 +11,10 @@ export interface OAuthAuthorizationTokenResponse {
   [key: string]: string | number;
 }
 
+const AUTH_SERVER = process.env.REACT_APP_AUTH_SERVER_BASE_URL;
+
 const authServer = axios.create({
-  baseURL: "http://localhost:8081",
+  baseURL: AUTH_SERVER,
 });
 
 authServer.interceptors.response.use(undefined, async (error) => {
@@ -27,7 +29,7 @@ export default class AuthorizationService {
   public static imperativelySendToLogout() {
     window.localStorage.clear();
     // codigo imperativo: gera efeito colateral
-    window.location.href = `http://localhost:8081/logout?redirect=http://localhost:3001`;
+    window.location.href = `${AUTH_SERVER}/logout?redirect=http://localhost:3001`;
   }
 
   public static async getNewToken(config: {
@@ -85,7 +87,7 @@ export default class AuthorizationService {
       code_challenge_method: "S256",
     });
 
-    return `http://localhost:8081/oauth/authorize?${config}`;
+    return `${AUTH_SERVER}/oauth/authorize?${config}`;
   }
 
   public static async imperativelySendToLoginScreen() {
