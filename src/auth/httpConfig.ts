@@ -1,12 +1,15 @@
-import axios from 'axios';
-import Service from 'rodolfohiok-sdk/dist/Service';
-import AuthorizationService from './Authorization.service';
+import axios from "axios";
+import Service from "rodolfohiok-sdk/dist/Service";
+import AuthorizationService from "./Authorization.service";
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+if (API_BASE_URL) Service.setBaseUrl(API_BASE_URL);
 
 Service.setRequestInterceptors(async (request) => {
   const accessToken = AuthorizationService.getAccessToken();
 
   if (accessToken) {
-    request.headers['Authorization'] = `Bearer ${accessToken}`;
+    request.headers["Authorization"] = `Bearer ${accessToken}`;
   }
 
   return request;
@@ -40,7 +43,7 @@ Service.setResponseInterceptors(
       AuthorizationService.setRefreshToken(tokens.refresh_token);
 
       originalRequest.headers[
-        'Authorization'
+        "Authorization"
       ] = `Bearer ${tokens.access_token}`;
 
       return axios(originalRequest);
