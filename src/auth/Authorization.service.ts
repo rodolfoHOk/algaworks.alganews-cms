@@ -11,6 +11,7 @@ export interface OAuthAuthorizationTokenResponse {
   [key: string]: string | number;
 }
 
+const APP_BASE_URL = process.env.REACT_APP_BASE_URL;
 const AUTH_SERVER = process.env.REACT_APP_AUTH_SERVER_BASE_URL;
 
 const authServer = axios.create({
@@ -29,7 +30,7 @@ export default class AuthorizationService {
   public static imperativelySendToLogout() {
     window.localStorage.clear();
     // codigo imperativo: gera efeito colateral
-    window.location.href = `${AUTH_SERVER}/logout?redirect=http://localhost:3001`;
+    window.location.href = `${AUTH_SERVER}/logout?redirect=${APP_BASE_URL}`;
   }
 
   public static async getNewToken(config: {

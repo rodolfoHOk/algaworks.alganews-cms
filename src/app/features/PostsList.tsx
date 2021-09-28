@@ -14,6 +14,8 @@ import PostTitleAnchor from "../components/PostTitleAnchor";
 import Table from "../components/Table/Table";
 import PostPreview from "./PostPreview";
 
+const BLOG_BASE_URL = process.env.REACT_APP_BLOG_SERVER_BASE_URL;
+
 export default function PostsList() {
   const { paginatedPosts, fetchPosts } = usePosts();
   const [error, setError] = useState<Error>();
@@ -35,7 +37,7 @@ export default function PostsList() {
   if (error) throw error;
 
   const openInNew = useCallback(async (post: Post.Summary) => {
-    let url = `http://localhost:3002/posts/${post.id}/${post.slug}`;
+    let url = `${BLOG_BASE_URL}/posts/${post.id}/${post.slug}`;
 
     if (!post.published) {
       const codeVerifier = AuthorizationService.getCodeVerifier();

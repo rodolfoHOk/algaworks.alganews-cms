@@ -13,6 +13,8 @@ import useAuth from "../core/hooks/useAuth";
 import jwtDecode from "jwt-decode";
 import Loading from "./components/Loading";
 
+const APP_BASE_URL = process.env.REACT_APP_BASE_URL;
+
 export default function App() {
   const history = useHistory();
   const location = useLocation();
@@ -61,7 +63,7 @@ export default function App() {
         } = await AuthorizationService.getFirstAccessToken({
           code,
           codeVerifier,
-          redirectUri: "http://localhost:3001/authorize",
+          redirectUri: `${APP_BASE_URL}/authorize`,
         });
 
         AuthorizationService.setAccessToken(access_token);
