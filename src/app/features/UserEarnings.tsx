@@ -1,7 +1,7 @@
-import Skeleton from "react-loading-skeleton";
-import styled from "styled-components";
-import useAuth from "../../core/hooks/useAuth";
-import ValueDescriptor from "../components/ValueDescriptor/ValueDescriptor";
+import Skeleton from 'react-loading-skeleton';
+import styled from 'styled-components';
+import useAuth from '../../core/hooks/useAuth';
+import ValueDescriptor from '../components/ValueDescriptor/ValueDescriptor';
 
 export default function UserEarnings() {
   const { user } = useAuth();
@@ -19,27 +19,28 @@ export default function UserEarnings() {
   return (
     <UserEarningsWrapper>
       <ValueDescriptor
-        description={"ganhos no mês"}
+        description={'ganhos no mês'}
         value={user.metrics.monthlyEarnings}
-        color={"default"}
+        color={'default'}
         isCurrency
       />
       <ValueDescriptor
-        description={"ganhos na semana"}
+        description={'ganhos na semana'}
+        data-testid={'weeklyEarnings'}
         value={user.metrics.weeklyEarnings}
-        color={"default"}
+        color={'default'}
         isCurrency
       />
       <ValueDescriptor
-        description={"ganhos de sempre"}
+        description={'ganhos de sempre'}
         value={user.metrics.lifetimeEarnings}
-        color={"primary"}
+        color={'primary'}
         isCurrency
       />
       <ValueDescriptor
-        description={"total de palavras"}
+        description={'total de palavras'}
         value={user.metrics.lifetimeWords}
-        color={"primary"}
+        color={'primary'}
       />
     </UserEarningsWrapper>
   );

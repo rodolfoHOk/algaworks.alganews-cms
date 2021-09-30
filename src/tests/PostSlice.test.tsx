@@ -26,9 +26,9 @@ describe('post slice', () => {
     expect(state.paginated?.content?.length).toBeGreaterThanOrEqual(1);
   });
 
-  it('log do state', () => {
-    console.log(store.getState().post.paginated?.content?.length);
-  });
+  // it('log do state', () => {
+  //   console.log(store.getState().post.paginated?.content?.length);
+  // });
 });
 
 // it('a', () => {});

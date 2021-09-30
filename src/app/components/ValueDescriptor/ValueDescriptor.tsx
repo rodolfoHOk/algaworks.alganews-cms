@@ -8,16 +8,13 @@ export interface ValueDescriptorProps {
 }
 
 export default function ValueDescriptor(props: ValueDescriptorProps) {
-  return <VD.Wrapper color={props.color}>
-    <span className="Description">{props.description}:</span>
-    <div>
-      {
-        props.isCurrency &&
-        <span className="Currency">{'R$'}</span>
-      }
-      <span className="Value">
-        {props.value.toLocaleString('pt-br')}
-      </span>
-    </div>
-  </VD.Wrapper>
+  return (
+    <VD.Wrapper {...props} color={props.color}>
+      <span className="Description">{props.description}:</span>
+      <div>
+        {props.isCurrency && <span className="Currency">{'R$'}</span>}
+        <span className="Value">{props.value.toLocaleString('pt-br')}</span>
+      </div>
+    </VD.Wrapper>
+  );
 }
