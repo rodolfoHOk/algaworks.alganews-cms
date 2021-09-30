@@ -41,6 +41,6 @@ it('throws error if progress is greater than 100', () => {
   spy.mockRestore();
 });
 
-test('faz um log de um erro', () => {
-  console.error('erro de alguma coisa');
-});
+// test('faz um log de um erro', () => {
+//   console.error('erro de alguma coisa');
+// });
