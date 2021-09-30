@@ -11,7 +11,8 @@ export interface CircleChartProps {
 
 export default function CircleChart(props: CircleChartProps) {
   // função que recupera a cor do chart com base no tema
-  const getThemeColor = () => props.theme === 'primary' ? '#0099FF' : '#274060';
+  const getThemeColor = () =>
+    props.theme === 'primary' ? '#0099FF' : '#274060';
 
   // setup (configurações de cor, borda, etc.)
   const THEME = getThemeColor();
@@ -20,7 +21,7 @@ export default function CircleChart(props: CircleChartProps) {
 
   // cálculos
   const CENTER = props.size / 2;
-  const RADIUS = (props.size / 2) - (STROKE_WIDTH / 2);
+  const RADIUS = props.size / 2 - STROKE_WIDTH / 2;
   const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
   // estado de offset
@@ -32,34 +33,27 @@ export default function CircleChart(props: CircleChartProps) {
     setOffSet(progressOffset);
   }, [CIRCUMFERENCE, props.progress, setOffSet, offset]);
 
-  return <CC.Wrapper>
-    <CC.SvgWrapper style={{ width: props.size, height: props.size }}>
-      <CC.Svg width={props.size} height={props.size}>
-        <CC.CircleBg
-          cy={CENTER}
-          cx={CENTER}
-          r={RADIUS}
-        />
-        <CC.Circle
-          fill="none"
-          cy={CENTER}
-          cx={CENTER}
-          r={RADIUS}
-          stroke={STROKE_COLOR}
-          strokeWidth={STROKE_WIDTH}
-          strokeDasharray={CIRCUMFERENCE}
-          strokeDashoffset={offset}
-        />
-      </CC.Svg>
-      <CC.Percentage color={THEME}>
-        {Math.ceil(props.progress)}%
-      </CC.Percentage>
-    </CC.SvgWrapper>
-    {
-      props.caption &&
-      <CC.Caption color={THEME}>
-        {props.caption}
-      </CC.Caption>
-    }
-  </CC.Wrapper >
+  return (
+    <CC.Wrapper>
+      <CC.SvgWrapper style={{ width: props.size, height: props.size }}>
+        <CC.Svg width={props.size} height={props.size}>
+          <CC.CircleBg cy={CENTER} cx={CENTER} r={RADIUS} />
+          <CC.Circle
+            fill="none"
+            cy={CENTER}
+            cx={CENTER}
+            r={RADIUS}
+            stroke={STROKE_COLOR}
+            strokeWidth={STROKE_WIDTH}
+            strokeDasharray={CIRCUMFERENCE}
+            strokeDashoffset={offset}
+          />
+        </CC.Svg>
+        <CC.Percentage color={THEME}>
+          {Math.ceil(props.progress)}%
+        </CC.Percentage>
+      </CC.SvgWrapper>
+      {props.caption && <CC.Caption color={THEME}>{props.caption}</CC.Caption>}
+    </CC.Wrapper>
+  );
 }
