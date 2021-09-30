@@ -10,6 +10,9 @@ export interface CircleChartProps {
 }
 
 export default function CircleChart(props: CircleChartProps) {
+  if (props.progress > 100)
+    throw new Error('Progresso só pode ser menor ou igual a 100');
+
   // função que recupera a cor do chart com base no tema
   const getThemeColor = () =>
     props.theme === 'primary' ? '#0099FF' : '#274060';
@@ -35,7 +38,10 @@ export default function CircleChart(props: CircleChartProps) {
 
   return (
     <CC.Wrapper>
-      <CC.SvgWrapper style={{ width: props.size, height: props.size }}>
+      <CC.SvgWrapper
+        data-testid={'svg-wrapper'}
+        style={{ width: props.size, height: props.size }}
+      >
         <CC.Svg width={props.size} height={props.size}>
           <CC.CircleBg cy={CENTER} cx={CENTER} r={RADIUS} />
           <CC.Circle
