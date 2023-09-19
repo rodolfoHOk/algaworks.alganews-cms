@@ -1,24 +1,24 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import notFound from '../../assets/not_found.svg';
 import Button from '../components/Button/Button';
+import { NotFoundSVG } from '../components/NotFoundSVG';
 
 export default function NotFound404() {
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  return <NotFound404Wrapper>
-    <span>
-      Oops!
-    </span>
-    <h1>Não encontramos esta página</h1>
-    <img src={notFound} alt="Não encontrado" />
-    <Button
-      type="button"
-      variant="primary"
-      label="Ir para a home"
-      onClick={() => history.replace('/')}
-    />
-  </NotFound404Wrapper>
+  return (
+    <NotFound404Wrapper>
+      <span>Oops!</span>
+      <h1>Não encontramos esta página</h1>
+      <NotFoundSVG />
+      <Button
+        type="button"
+        variant="primary"
+        label="Ir para a home"
+        onClick={() => navigate('/', { replace: true })}
+      />
+    </NotFound404Wrapper>
+  );
 }
 
 const NotFound404Wrapper = styled.div`
@@ -30,8 +30,8 @@ const NotFound404Wrapper = styled.div`
 
   min-height: 100vh;
 
-  span { 
-    font-size: 72px
+  span {
+    font-size: 72px;
   }
 
   h1 {

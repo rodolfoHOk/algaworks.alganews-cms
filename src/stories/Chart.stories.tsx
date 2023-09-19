@@ -1,12 +1,13 @@
 import { Story, Meta } from '@storybook/react';
 import Chart, { ChartProps } from '../app/components/Chart/Chart';
+import { ChartData } from 'chart.js';
 
 export default {
   title: 'Component/Chart',
   component: Chart,
 } as Meta<ChartProps>;
 
-const data: Chart.ChartData = {
+const data: ChartData<'line'> = {
   labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
   datasets: [
     {

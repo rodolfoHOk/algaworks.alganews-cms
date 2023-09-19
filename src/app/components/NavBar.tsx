@@ -1,14 +1,22 @@
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 export default function NavBar() {
-  return <>
-    <List>
-      <Item><NavLink exact to="/">Home</NavLink></Item>
-      <Item><NavLink exact to="/editores">Editores</NavLink></Item>
-      <Item><NavLink exact to="/posts/criar">Novo Post</NavLink></Item>
-    </List>
-  </>
+  return (
+    <>
+      <List>
+        <Item>
+          <NavLink to="/">Home</NavLink>
+        </Item>
+        <Item>
+          <NavLink to="/editores">Editores</NavLink>
+        </Item>
+        <Item>
+          <NavLink to="/posts/criar">Novo Post</NavLink>
+        </Item>
+      </List>
+    </>
+  );
 }
 
 const List = styled.ul`
@@ -27,7 +35,7 @@ const Item = styled.li`
     color: #274060;
 
     &.active {
-      color: #09F;
+      color: #09f;
     }
   }
 `;

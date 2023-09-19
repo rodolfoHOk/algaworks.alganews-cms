@@ -2,7 +2,7 @@ import * as T from './Table.styles';
 import { TableInstance } from 'react-table';
 import NoData from '../NoData/NoData';
 import { transparentize } from 'polished';
-import { useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 import Icon from '@mdi/react';
 import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
@@ -10,13 +10,11 @@ import { mdiChevronLeft, mdiChevronRight } from '@mdi/js';
 interface TableProps<T extends object> {
   instance: TableInstance<T>;
   onPaginate?: (newPage: number) => any;
-
 }
-
 
 export default function Table<T extends Object>({
   instance,
-  onPaginate
+  onPaginate,
 }: TableProps<T>) {
   const {
     getTableProps,
@@ -26,69 +24,58 @@ export default function Table<T extends Object>({
     rows,
     pageCount,
     gotoPage,
-    state: {
-      pageIndex,
-    }
+    state: { pageIndex },
   } = instance;
 
   useEffect(() => {
-    onPaginate &&
-      onPaginate(pageIndex);
+    onPaginate && onPaginate(pageIndex);
   }, [pageIndex, onPaginate]);
 
   return (
     <>
       <T.Wrapper cellPadding={0} cellSpacing={0} {...getTableProps()}>
         <T.Heading>
-          {
-            headerGroups.map(headerGroup => {
-              const { key, ...restHeaderGroupProps } = headerGroup.getHeaderGroupProps();
-              return (
-                <T.HeadingRow key={key} {...restHeaderGroupProps}>
-                  {
-                    headerGroup.headers.map(column => {
-                      const { key, ...restColumnProps } = column.getHeaderProps();
-                      return (
-                        <T.HeadingCell key={key} {...restColumnProps}>
-                          {column.render('Header')}
-                        </T.HeadingCell>
-                      )
-                    })
-                  }
-                </T.HeadingRow>
-              )
-            })
-          }
+          {headerGroups.map((headerGroup) => {
+            const { key, ...restHeaderGroupProps } =
+              headerGroup.getHeaderGroupProps();
+            return (
+              <T.HeadingRow key={key} {...restHeaderGroupProps}>
+                {headerGroup.headers.map((column) => {
+                  const { key, ...restColumnProps } = column.getHeaderProps();
+                  return (
+                    <T.HeadingCell key={key} {...restColumnProps}>
+                      {column.render('Header') as ReactNode}
+                    </T.HeadingCell>
+                  );
+                })}
+              </T.HeadingRow>
+            );
+          })}
         </T.Heading>
         <T.Body {...getTableBodyProps()}>
-          {
-            rows.map(row => {
-              prepareRow(row);
-              const { key, ...restRowProps } = row.getRowProps();
-              return (
-                <T.BodyRow key={key} {...restRowProps}>
-                  {
-                    row.cells.map(cell => {
-                      const { key, ...restCellProps } = cell.getCellProps()
-                      return (
-                        <T.BodyCell key={key} {...restCellProps}>
-                          {cell.render('Cell')}
-                        </T.BodyCell>
-                      )
-                    })
-                  }
-                </T.BodyRow>
-              )
-            })
-          }
+          {rows.map((row) => {
+            prepareRow(row);
+            const { key, ...restRowProps } = row.getRowProps();
+            return (
+              <T.BodyRow key={key} {...restRowProps}>
+                {row.cells.map((cell) => {
+                  const { key, ...restCellProps } = cell.getCellProps();
+                  return (
+                    <T.BodyCell key={key} {...restCellProps}>
+                      {cell.render('Cell') as ReactNode}
+                    </T.BodyCell>
+                  );
+                })}
+              </T.BodyRow>
+            );
+          })}
         </T.Body>
       </T.Wrapper>
-      {
-        !rows.length &&
+      {!rows.length && (
         <div style={{ backgroundColor: transparentize(0.95, '#274060') }}>
           <NoData height={360} />
         </div>
-      }
+      )}
 
       <T.TablePagination>
         <ReactPaginate
