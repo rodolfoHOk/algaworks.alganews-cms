@@ -1,5 +1,5 @@
 import { transparentize } from 'polished';
-import { createGlobalStyle } from 'styled-components/macro';
+import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
   * {

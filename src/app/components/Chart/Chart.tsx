@@ -13,6 +13,7 @@ import {
   LineElement,
   Title,
   Legend,
+  Filler,
 } from 'chart.js';
 import { Tooltip } from 'chart.js';
 
@@ -54,6 +55,7 @@ ChartJs.register(
   LineElement,
   Title,
   Tooltip,
+  Filler,
   Legend
 );
 
@@ -63,7 +65,6 @@ export interface ChartProps {
 }
 
 export default function Chart({ title, data }: ChartProps) {
-  console.log(data);
   return (
     <ChartWrapper style={{ width: '100%' }}>
       <div style={{ marginBottom: 16 }}>

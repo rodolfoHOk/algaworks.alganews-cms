@@ -10,7 +10,7 @@ import PostEditView from './views/PostEdit.view';
 import AuthorizationService from '../auth/Authorization.service';
 import { Authentication } from '../auth/Auth';
 import useAuth from '../core/hooks/useAuth';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import Loading from './components/Loading';
 
 const APP_BASE_URL = process.env.REACT_APP_BASE_URL;
