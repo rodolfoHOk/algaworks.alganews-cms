@@ -1,16 +1,16 @@
-import { format } from "date-fns";
-import ptBr from "date-fns/locale/pt-BR";
-import { transparentize } from "polished";
-import { useEffect, useMemo } from "react";
-import { useParams } from "react-router-dom";
-import { getEditorDescription, User } from "rodolfohiok-sdk";
-import styled from "styled-components";
-import useAuth from "../../core/hooks/useAuth";
-import useSingleEditor from "../../core/hooks/useSingleEditor";
-import FieldDescriptor from "../components/FieldDescriptor/FieldDescriptor";
-import ProgressBar from "../components/ProgressBar/ProgressBar";
-import Paragraph from "../components/Typography/Paragraph";
-import ValueDescriptor from "../components/ValueDescriptor/ValueDescriptor";
+import { format, parseISO } from 'date-fns';
+import ptBr from 'date-fns/locale/pt-BR';
+import { transparentize } from 'polished';
+import { useEffect, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
+import { getEditorDescription, User } from 'rodolfohiok-sdk';
+import styled from 'styled-components';
+import useAuth from '../../core/hooks/useAuth';
+import useSingleEditor from '../../core/hooks/useSingleEditor';
+import FieldDescriptor from '../components/FieldDescriptor/FieldDescriptor';
+import ProgressBar from '../components/ProgressBar/ProgressBar';
+import Paragraph from '../components/Typography/Paragraph';
+import ValueDescriptor from '../components/ValueDescriptor/ValueDescriptor';
 
 interface EditorProfileProps {
   hidePersonalData?: boolean;
@@ -69,7 +69,7 @@ export default function EditorProfile(props: EditorProfileProps) {
           ))}
         </EditorResume>
         <EditorPersonalInfo>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
             {editorData.location.city && (
               <FieldDescriptor
                 label="cidade"
@@ -99,7 +99,7 @@ export default function EditorProfile(props: EditorProfileProps) {
             <FieldDescriptor
               label="data de nascimento"
               value={format(
-                new Date((editorData as User.Detailed).birthdate),
+                parseISO((editorData as User.Detailed).birthdate),
                 "dd 'de' MMM 'de' yyyy ",
                 { locale: ptBr }
               )}
@@ -110,36 +110,36 @@ export default function EditorProfile(props: EditorProfileProps) {
       {(editorData as User.Detailed).metrics && (
         <EditorEarnings>
           <ValueDescriptor
-            description={"palavras nesta semana"}
+            description={'palavras nesta semana'}
             value={(editorData as User.Detailed).metrics.weeklyWords}
-            color={"primary"}
+            color={'primary'}
           />
           <ValueDescriptor
-            description={"ganhos na semana"}
+            description={'ganhos na semana'}
             value={(editorData as User.Detailed).metrics.weeklyEarnings}
-            color={"default"}
+            color={'default'}
             isCurrency
           />
           <ValueDescriptor
-            description={"palavras no mês"}
+            description={'palavras no mês'}
             value={(editorData as User.Detailed).metrics.monthlyWords}
-            color={"primary"}
+            color={'primary'}
           />
           <ValueDescriptor
-            description={"ganhos no mês"}
+            description={'ganhos no mês'}
             value={(editorData as User.Detailed).metrics.monthlyEarnings}
-            color={"default"}
+            color={'default'}
             isCurrency
           />
           <ValueDescriptor
-            description={"total de palavras"}
+            description={'total de palavras'}
             value={(editorData as User.Detailed).metrics.lifetimeWords}
-            color={"primary"}
+            color={'primary'}
           />
           <ValueDescriptor
-            description={"ganhos sempre"}
+            description={'ganhos sempre'}
             value={(editorData as User.Detailed).metrics.lifetimeEarnings}
-            color={"default"}
+            color={'default'}
             isCurrency
           />
         </EditorEarnings>
@@ -161,7 +161,7 @@ const EditorHeading = styled.div`
   gap: 24px;
 
   padding-bottom: 24px;
-  border-bottom: 1px solid ${transparentize(0.9, "#274060")};
+  border-bottom: 1px solid ${transparentize(0.9, '#274060')};
 `;
 
 export const HeadingAvatar = styled.img`

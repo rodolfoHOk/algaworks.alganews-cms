@@ -1,7 +1,7 @@
-import { ChartProps } from "../../app/components/Chart/Chart";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { Metric } from "rodolfohiok-sdk";
+import { ChartProps } from '../../app/components/Chart/Chart';
+import { format, parseISO } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { Metric } from 'rodolfohiok-sdk';
 
 function transformEditorMonthlyEarningsIntoChartJs(
   editorEarnings: Metric.EditorMonthlyEarnings
@@ -10,8 +10,10 @@ function transformEditorMonthlyEarningsIntoChartJs(
   const editorData: number[] = [];
   const platformAverageData: number[] = [];
 
-  editorEarnings.forEach(earning => {
-    const formattedMonth = format(new Date(earning.yearMonth), 'MMMM', { locale: ptBR })
+  editorEarnings.forEach((earning) => {
+    const formattedMonth = format(parseISO(earning.yearMonth), 'MMMM', {
+      locale: ptBR,
+    });
     labels.push(formattedMonth);
     editorData.push(earning.totalAmount);
     platformAverageData.push(earning.totalPlatformAverageAmount);
@@ -36,8 +38,8 @@ function transformEditorMonthlyEarningsIntoChartJs(
         borderColor: '#274060',
         borderWidth: 0.5,
       },
-    ]
-  }
+    ],
+  };
 }
 
 export default transformEditorMonthlyEarningsIntoChartJs;
