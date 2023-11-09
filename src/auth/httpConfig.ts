@@ -15,13 +15,42 @@ Service.setRequestInterceptors(async (request) => {
   return request;
 });
 
+let isRefreshing: boolean = false;
+let failedQueue: any[] = [];
+
+const processQueue = (error: any, token: string | null = null) => {
+  failedQueue.forEach((promise) => {
+    if (error) {
+      promise.reject(error);
+    } else {
+      promise.resolve(token);
+    }
+  });
+
+  failedQueue = [];
+};
+
 Service.setResponseInterceptors(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
     if (error?.response?.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        return new Promise(function (resolve, reject) {
+          failedQueue.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers['Authorization'] = 'Bearer ' + token;
+            return axios(originalRequest);
+          })
+          .catch((err) => {
+            return Promise.reject(err);
+          });
+      }
+
       originalRequest._retry = true;
+      isRefreshing = true;
 
       const storage = {
         codeVerifier: AuthorizationService.getCodeVerifier(),
@@ -34,21 +63,30 @@ Service.setResponseInterceptors(
         return;
       }
 
-      const tokens = await AuthorizationService.getNewToken({
-        refreshToken,
-        codeVerifier,
-      });
+      try {
+        const tokens = await AuthorizationService.getNewToken({
+          refreshToken,
+          codeVerifier,
+        });
 
-      AuthorizationService.setAccessToken(tokens.access_token);
-      AuthorizationService.setRefreshToken(tokens.refresh_token);
+        AuthorizationService.setAccessToken(tokens.access_token);
+        AuthorizationService.setRefreshToken(tokens.refresh_token);
 
-      originalRequest.headers[
-        'Authorization'
-      ] = `Bearer ${tokens.access_token}`;
+        originalRequest.headers[
+          'Authorization'
+        ] = `Bearer ${tokens.access_token}`;
 
-      return axios(originalRequest);
+        processQueue(null, tokens.access_token);
+
+        return axios(originalRequest);
+      } catch (err) {
+        processQueue(err, null);
+        throw err;
+      } finally {
+        isRefreshing = false;
+      }
     }
 
-    return Promise.reject(error);
+    throw error;
   }
 );
